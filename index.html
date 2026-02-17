@@ -23,21 +23,21 @@
             font-family: 'Sarabun', sans-serif;
             background-color: var(--bg-light);
             margin: 0;
-            overflow-x: hidden;
+            overflow-x: hidden; /* ป้องกันการเลื่อนซ้ายขวา */
             color: var(--text-dark);
-            line-height: 1.6; /* ระยะห่างมาตรฐาน */
+            line-height: 1.6;
         }
 
-        /* --- Typography (จัดระยะบรรทัดให้อ่านง่าย) --- */
-        h1, h2, h3, h4, h5, h6 { font-weight: 700; margin-bottom: 1rem; }
+        /* --- Typography --- */
+        h1, h2, h3, h4, h5, h6 { font-weight: 700; margin-bottom: 1rem; word-wrap: break-word; } /* ตัดคำถ้ายาวเกิน */
         p, li {
-            line-height: 1.9; /* เพิ่มระยะห่างบรรทัดให้อ่านสบายตา */
-            margin-bottom: 1.2rem;
-            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            font-size: 1rem;
             color: #475569;
         }
 
-        /* --- Animations & Effects --- */
+        /* --- Animations --- */
         @keyframes float-idle {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
@@ -87,6 +87,7 @@
             background: white; border-radius: 24px; padding: 40px;
             box-shadow: 0 10px 30px -10px rgba(0,0,0,0.06); margin-bottom: 30px;
             border: 1px solid rgba(255,255,255,0.8); transition: transform 0.3s;
+            overflow: hidden; /* ป้องกันเนื้อหาล้นการ์ด */
         }
         .content-card:hover { transform: translateY(-5px); }
 
@@ -108,15 +109,52 @@
             transform: translateY(-3px); box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3); color: white;
         }
 
-        .typing-wrapper { display: inline-block; overflow: hidden; white-space: nowrap; border-right: 3px solid var(--primary-color); animation: blink 0.75s step-end infinite; }
+        .typing-wrapper { 
+            display: inline-block; 
+            overflow: hidden; 
+            white-space: normal; /* แก้ให้ขึ้นบรรทัดใหม่ได้ */
+            border-right: 3px solid var(--primary-color); 
+            animation: blink 0.75s step-end infinite; 
+            max-width: 100%;
+        }
         @keyframes blink { 50% { border-color: transparent; } }
 
+        /* --- MOBILE FIXES (แก้ปัญหาจอมือถือ) --- */
         @media (max-width: 768px) {
             #sidebar { margin-left: calc(var(--sidebar-width) * -1); }
             #sidebar.mobile-open { margin-left: 0; }
-            #content { margin-left: 0; padding: 20px; }
+            
+            /* ลด Padding ของ Content หลัก */
+            #content { 
+                margin-left: 0; 
+                padding: 20px 15px; /* บนล่าง 20, ซ้ายขวา 15 */
+                overflow-x: hidden;
+            }
+            
             .overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:900; backdrop-filter: blur(3px); }
             .overlay.active { display: block; }
+
+            /* ปรับการ์ดให้ขอบบางลงในมือถือ */
+            .content-card {
+                padding: 25px 20px; /* ลดจาก 40px เหลือ 20px */
+                border-radius: 20px;
+            }
+
+            /* ปรับขนาดตัวอักษรหัวข้อใหญ่ */
+            h1.display-5 {
+                font-size: 1.75rem !important; /* บังคับลดขนาดฟอนต์ */
+                line-height: 1.3;
+            }
+
+            /* ปรับไอคอนรถให้เล็กลงหน่อย */
+            .fa-4x { font-size: 3em; }
+
+            /* ปรับ Typing Text */
+            .typing-wrapper {
+                white-space: pre-wrap; /* ให้ตัดคำได้ */
+                border: none; /* เอาเคอร์เซอร์กระพริบออกในมือถือกันเพี้ยน */
+                animation: none;
+            }
         }
     </style>
 </head>
@@ -159,7 +197,7 @@
     </nav>
 
     <div id="content">
-        <div class="d-flex align-items-center mb-5" data-aos="fade-down">
+        <div class="d-flex align-items-center mb-4" data-aos="fade-down">
             <button class="btn btn-white bg-white shadow-sm border me-3 rounded-3 px-3 py-2" onclick="toggleSidebar()">
                 <i class="fas fa-bars text-secondary"></i>
             </button>
@@ -180,7 +218,7 @@
                     <span id="type-text" class="typing-wrapper"></span>
                 </h1>
                 <p class="text-secondary mb-5 mx-auto" style="max-width: 600px;">
-                    เรียนรู้กฎจราจรและสัญลักษณ์จราจรต่างๆ อย่างถูกต้องและเข้าใจง่าย <br>
+                    เรียนรู้กฎจราจรและสัญลักษณ์จราจรต่างๆ อย่างถูกต้องและเข้าใจง่าย <br class="d-none d-md-block">
                     เพื่อความปลอดภัยสูงสุดบนท้องถนนของคุณ
                 </p>
                 <button class="btn btn-gradient btn-lg rounded-pill px-5 py-3 shadow-lg fw-bold" onclick="showSection('lessons')">
@@ -243,8 +281,7 @@
                 <small class="text-muted ms-3">(คลิกเพื่อดูความหมาย)</small>
             </div>
             
-            <div class="row g-4" id="sign-grid">
-                </div>
+            <div class="row g-4" id="sign-grid"></div>
         </div>
 
         <div id="section-quiz" class="page-section" style="display: none;">
@@ -335,7 +372,9 @@
                 i++;
                 setTimeout(type, 80);
             } else {
-                document.getElementById('type-text').style.borderRight = "none";
+                if(window.innerWidth > 768) { // Only remove cursor on PC
+                     document.getElementById('type-text').style.borderRight = "none";
+                }
             }
         }
         setTimeout(type, 300);
@@ -420,7 +459,6 @@
         function check(c) {
             if(c===data[qIdx].ans) {
                 score++;
-                // Optional: Sound Effect
             }
             if(++qIdx < 5) loadQ();
             else {
@@ -428,7 +466,6 @@
                 alert(`จบการสอบ! คุณ ${uName} ได้ ${score}/5 คะแนน`);
                 saveHistory(uName, score);
                 
-                // Reset UI
                 document.getElementById('quiz-start').style.display='block';
                 document.getElementById('quiz-play').style.display='none';
                 document.getElementById('player-name').value='';
