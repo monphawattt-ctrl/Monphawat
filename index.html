@@ -25,9 +25,19 @@
             margin: 0;
             overflow-x: hidden;
             color: var(--text-dark);
+            line-height: 1.6; /* ระยะห่างมาตรฐาน */
         }
 
-        /* --- Animations --- */
+        /* --- Typography (จัดระยะบรรทัดให้อ่านง่าย) --- */
+        h1, h2, h3, h4, h5, h6 { font-weight: 700; margin-bottom: 1rem; }
+        p, li {
+            line-height: 1.9; /* เพิ่มระยะห่างบรรทัดให้อ่านสบายตา */
+            margin-bottom: 1.2rem;
+            font-size: 1.05rem;
+            color: #475569;
+        }
+
+        /* --- Animations & Effects --- */
         @keyframes float-idle {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
@@ -41,59 +51,60 @@
         .floating-element { animation: float-idle 3s ease-in-out infinite; }
         
         .bg-shape {
-            position: fixed; border-radius: 50%; filter: blur(60px); z-index: -1; opacity: 0.5;
+            position: fixed; border-radius: 50%; filter: blur(80px); z-index: -1; opacity: 0.6;
             animation: bg-move 10s infinite alternate;
         }
-        .shape-1 { top: -50px; right: -50px; width: 300px; height: 300px; background: #bfdbfe; }
-        .shape-2 { bottom: 0; left: 0; width: 400px; height: 400px; background: #e9d5ff; animation-delay: 2s; }
+        .shape-1 { top: -50px; right: -50px; width: 400px; height: 400px; background: #dbeafe; }
+        .shape-2 { bottom: 0; left: 0; width: 500px; height: 500px; background: #e9d5ff; animation-delay: 2s; }
 
         /* --- Sidebar --- */
         #sidebar {
             width: var(--sidebar-width); height: 100vh;
-            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
             position: fixed; top: 0; left: 0; z-index: 1000;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border-right: 1px solid rgba(255,255,255,0.3);
-            box-shadow: 5px 0 15px rgba(0,0,0,0.02);
+            border-right: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 4px 0 20px rgba(0,0,0,0.02);
             display: flex; flex-direction: column;
         }
         #sidebar.closed { margin-left: calc(var(--sidebar-width) * -1); }
 
         .menu-item {
-            padding: 15px 25px; cursor: pointer; color: #64748b; font-weight: 500;
-            transition: 0.3s; display: flex; align-items: center; border-radius: 10px; margin: 5px 15px;
+            padding: 16px 25px; cursor: pointer; color: #64748b; font-weight: 500;
+            transition: 0.3s; display: flex; align-items: center; border-radius: 12px; margin: 5px 15px;
         }
         .menu-item:hover, .menu-item.active {
             background: var(--primary-light); color: var(--primary-color); transform: translateX(5px);
+            font-weight: 600;
         }
-        .menu-item i { width: 30px; font-size: 1.2rem; }
+        .menu-item i { width: 35px; font-size: 1.2rem; }
 
-        /* --- Content & Cards --- */
-        #content { margin-left: var(--sidebar-width); transition: all 0.4s; padding: 30px; min-height: 100vh; }
+        /* --- Main Content --- */
+        #content { margin-left: var(--sidebar-width); transition: all 0.4s; padding: 40px; min-height: 100vh; }
         #content.full-width { margin-left: 0; }
 
         .content-card {
-            background: white; border-radius: 20px; padding: 40px;
-            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.08); margin-bottom: 30px;
-            border: 1px solid #fff; transition: transform 0.3s;
+            background: white; border-radius: 24px; padding: 40px;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.06); margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.8); transition: transform 0.3s;
         }
         .content-card:hover { transform: translateY(-5px); }
 
         .sign-card {
-            background: white; border-radius: 15px; padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.03); border: 1px solid #f1f5f9;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer;
+            background: white; border-radius: 16px; padding: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03); border: 1px solid #f1f5f9;
+            transition: all 0.3s; cursor: pointer; height: 100%;
         }
         .sign-card:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 20px 30px -10px rgba(37, 99, 235, 0.15); border-color: var(--primary-color);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(37, 99, 235, 0.15); border-color: var(--primary-color);
         }
 
         .btn-gradient {
-            background: linear-gradient(45deg, #2563eb, #4f46e5); border: none; color: white; transition: 0.3s;
+            background: linear-gradient(135deg, #2563eb, #4f46e5); border: none; color: white; transition: 0.3s;
         }
         .btn-gradient:hover {
-            background: linear-gradient(45deg, #1d4ed8, #4338ca);
+            background: linear-gradient(135deg, #1d4ed8, #4338ca);
             transform: translateY(-3px); box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3); color: white;
         }
 
@@ -103,7 +114,7 @@
         @media (max-width: 768px) {
             #sidebar { margin-left: calc(var(--sidebar-width) * -1); }
             #sidebar.mobile-open { margin-left: 0; }
-            #content { margin-left: 0; padding: 15px; }
+            #content { margin-left: 0; padding: 20px; }
             .overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:900; backdrop-filter: blur(3px); }
             .overlay.active { display: block; }
         }
@@ -117,8 +128,10 @@
 
     <nav id="sidebar">
         <div class="p-4 d-flex justify-content-between align-items-center">
-            <h4 class="fw-bold text-primary m-0"><i class="fas fa-traffic-light me-2"></i>Traffic Ed</h4>
-            <i class="fas fa-times d-md-none text-muted" onclick="toggleSidebar()"></i>
+            <h4 class="fw-bold text-primary m-0" style="letter-spacing: -1px;">
+                <i class="fas fa-traffic-light me-2"></i>Traffic Ed
+            </h4>
+            <i class="fas fa-times d-md-none text-muted fs-4" onclick="toggleSidebar()"></i>
         </div>
         
         <div class="mt-2">
@@ -126,7 +139,7 @@
                 <i class="fas fa-home"></i> หน้าแรก
             </div>
             <div class="menu-item" onclick="showSection('lessons', this)">
-                <i class="fas fa-book-open"></i> บทเรียน
+                <i class="fas fa-book-reader"></i> บทเรียน
             </div>
             <div class="menu-item" onclick="showSection('quiz', this)">
                 <i class="fas fa-gamepad"></i> แบบทดสอบ
@@ -137,79 +150,99 @@
         </div>
 
         <div class="mt-auto p-4 text-center">
-            <div class="bg-light p-3 rounded-3 shadow-sm">
-                <i class="fas fa-code text-primary mb-2"></i>
-                <p class="mb-0 small text-muted">Dev by <strong class="text-dark">มนภวัต</strong></p>
+            <div class="bg-light p-3 rounded-4 shadow-sm border">
+                <div class="mb-2 text-primary"><i class="fas fa-code"></i></div>
+                <small class="text-muted d-block">Developed by</small>
+                <strong class="text-dark">มนภวัต</strong>
             </div>
         </div>
     </nav>
 
     <div id="content">
-        <div class="d-flex align-items-center mb-4" data-aos="fade-down">
-            <button class="btn btn-white shadow-sm border me-3" onclick="toggleSidebar()">
-                <i class="fas fa-bars"></i>
+        <div class="d-flex align-items-center mb-5" data-aos="fade-down">
+            <button class="btn btn-white bg-white shadow-sm border me-3 rounded-3 px-3 py-2" onclick="toggleSidebar()">
+                <i class="fas fa-bars text-secondary"></i>
             </button>
-            <h5 class="m-0 fw-bold" id="page-title">หน้าแรก</h5>
+            <div>
+                <small class="text-muted d-block" style="font-size: 0.8rem;">Current Page</small>
+                <h5 class="m-0 fw-bold text-dark" id="page-title">หน้าแรก</h5>
+            </div>
         </div>
 
         <div id="section-landing" class="page-section active">
-            <div class="content-card text-center" data-aos="fade-up" data-aos-duration="1000">
-                <div class="floating-element mb-3">
-                    <i class="fas fa-car-side text-primary fa-4x"></i>
+            <div class="content-card text-center py-5" data-aos="zoom-in">
+                <div class="floating-element mb-4">
+                    <span class="d-inline-block p-3 rounded-circle bg-primary bg-opacity-10 text-primary">
+                        <i class="fas fa-car-side fa-4x"></i>
+                    </span>
                 </div>
-                <h1 class="fw-bold mb-3 display-5">
+                <h1 class="fw-bold mb-3 display-5 text-dark">
                     <span id="type-text" class="typing-wrapper"></span>
                 </h1>
-                <p class="text-muted mb-5 lead">สื่อการสอนกฎจราจรและความหมายของป้ายต่างๆ <br>เพื่อความปลอดภัยบนท้องถนน</p>
-                <button class="btn btn-gradient btn-lg rounded-pill px-5 py-3 shadow-lg" onclick="showSection('lessons')">
-                    เริ่มเรียนรู้กันเลย <i class="fas fa-arrow-right ms-2"></i>
+                <p class="text-secondary mb-5 mx-auto" style="max-width: 600px;">
+                    เรียนรู้กฎจราจรและสัญลักษณ์จราจรต่างๆ อย่างถูกต้องและเข้าใจง่าย <br>
+                    เพื่อความปลอดภัยสูงสุดบนท้องถนนของคุณ
+                </p>
+                <button class="btn btn-gradient btn-lg rounded-pill px-5 py-3 shadow-lg fw-bold" onclick="showSection('lessons')">
+                    เริ่มต้นบทเรียน <i class="fas fa-arrow-right ms-2"></i>
                 </button>
             </div>
 
             <div class="row g-4 mt-2">
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="sign-card text-center h-100">
-                        <i class="fas fa-check-circle text-success fa-3x mb-3 floating-element"></i>
-                        <h5>ข้อมูลถูกต้อง</h5>
-                        <p class="text-muted small">เนื้อหาอ้างอิงจากกฎหมายจราจร</p>
+                    <div class="sign-card text-center h-100 border-0 shadow-sm">
+                        <div class="mb-3 text-success floating-element"><i class="fas fa-check-circle fa-3x"></i></div>
+                        <h5 class="fw-bold">ข้อมูลถูกต้อง</h5>
+                        <p class="text-muted small mb-0">เนื้อหาอ้างอิงจากกฎหมายจราจรทางบก</p>
                     </div>
                 </div>
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="sign-card text-center h-100">
-                        <i class="fas fa-mobile-alt text-warning fa-3x mb-3 floating-element"></i>
-                        <h5>รองรับมือถือ</h5>
-                        <p class="text-muted small">ใช้งานได้ทุกที่ ทุกเวลา</p>
+                    <div class="sign-card text-center h-100 border-0 shadow-sm">
+                        <div class="mb-3 text-warning floating-element"><i class="fas fa-mobile-alt fa-3x"></i></div>
+                        <h5 class="fw-bold">รองรับมือถือ</h5>
+                        <p class="text-muted small mb-0">เรียนรู้ได้ทุกที่ ทุกเวลา บนทุกอุปกรณ์</p>
                     </div>
                 </div>
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-                    <div class="sign-card text-center h-100">
-                        <i class="fas fa-star text-primary fa-3x mb-3 floating-element"></i>
-                        <h5>เข้าใจง่าย</h5>
-                        <p class="text-muted small">อธิบายด้วยภาพและภาษาที่เข้าใจง่าย</p>
+                    <div class="sign-card text-center h-100 border-0 shadow-sm">
+                        <div class="mb-3 text-primary floating-element"><i class="fas fa-star fa-3x"></i></div>
+                        <h5 class="fw-bold">เข้าใจง่าย</h5>
+                        <p class="text-muted small mb-0">อธิบายด้วยภาพประกอบที่ชัดเจน</p>
                     </div>
                 </div>
             </div>
-            </div>
+        </div>
 
         <div id="section-lessons" class="page-section" style="display: none;">
             <div class="content-card" data-aos="fade-left">
-                <div class="row align-items-center">
-                    <div class="col-md-8">
-                        <h3 class="fw-bold text-primary mb-3">ทฤษฎีควรรู้</h3>
-                        <p class="text-muted">
-                            เครื่องหมายจราจรมีไว้เพื่อควบคุม บังคับ และเตือนผู้ขับขี่ 
-                            ให้ระมัดระวังในการขับขี่ เพื่อความปลอดภัยในชีวิตและทรัพย์สิน
+                <div class="row">
+                    <div class="col-lg-8">
+                        <span class="badge bg-primary bg-opacity-10 text-primary mb-2 px-3 py-2 rounded-pill">Introduction</span>
+                        <h2 class="fw-bold text-dark mb-4">เครื่องหมายจราจรตามกฎหมายไทย</h2>
+                        
+                        <h5 class="fw-bold text-primary"><i class="fas fa-book me-2"></i>บทนำ</h5>
+                        <p>
+                            เครื่องหมายจราจรเป็นองค์ประกอบสำคัญของระบบความปลอดภัยทางถนน มีหน้าที่ควบคุม บังคับ เตือน 
+                            และให้ข้อมูลแก่ผู้ใช้ทาง เพื่อให้การจราจรเป็นระเบียบ ลดอุบัติเหตุ และรักษาความปลอดภัยของประชาชน
+                        </p>
+                        
+                        <h5 class="fw-bold text-primary mt-4"><i class="fas fa-gavel me-2"></i>ความหมายทางกฎหมาย</h5>
+                        <p>
+                            ตาม พ.ร.บ.จราจรทางบก พ.ศ. 2522 "เครื่องหมายจราจร" หมายถึง เครื่องหมาย สัญลักษณ์ เส้น เครื่องหมายบนพื้นทาง 
+                            ป้าย หรือสิ่งอื่นใดที่เจ้าพนักงานจราจรติดตั้งหรือทำให้ปรากฏ เพื่อควบคุมหรือแนะนำการใช้ทาง
                         </p>
                     </div>
-                    <div class="col-md-4 text-center">
-                        <i class="fas fa-book-reader text-primary opacity-25 fa-6x floating-element"></i>
+                    <div class="col-lg-4 text-center d-flex align-items-center justify-content-center">
+                        <i class="fas fa-book-open text-primary opacity-25 fa-8x floating-element d-none d-lg-block"></i>
                     </div>
                 </div>
             </div>
 
-            <h4 class="fw-bold mt-5 mb-4 border-start border-4 border-primary ps-3" data-aos="fade-right">
-                แกลเลอรี่ ป้ายจราจร
-            </h4>
+            <div class="d-flex align-items-center mb-4 mt-5 ps-3 border-start border-4 border-primary" data-aos="fade-right">
+                <h4 class="fw-bold m-0 text-dark">แกลเลอรี่ ป้ายจราจร</h4>
+                <small class="text-muted ms-3">(คลิกเพื่อดูความหมาย)</small>
+            </div>
+            
             <div class="row g-4" id="sign-grid">
                 </div>
         </div>
@@ -219,24 +252,34 @@
                 
                 <div id="quiz-start">
                     <div class="floating-element mb-4">
-                        <i class="fas fa-brain text-warning fa-5x"></i>
+                        <div class="d-inline-block p-4 rounded-circle bg-warning bg-opacity-10">
+                            <i class="fas fa-brain text-warning fa-4x"></i>
+                        </div>
                     </div>
                     <h2 class="fw-bold">ทดสอบความรู้</h2>
-                    <p class="text-muted mb-4">มาวัดระดับความรู้ของคุณกัน (5 ข้อ)</p>
-                    <input type="text" id="player-name" class="form-control text-center mb-3 p-3 rounded-pill bg-light border-0" placeholder="กรอกชื่อของคุณ (เช่น มนภวัต)">
-                    <button class="btn btn-gradient w-100 py-3 rounded-pill fw-bold" onclick="startQuiz()">
+                    <p class="text-muted mb-4">วัดระดับความรู้ของคุณด้วยแบบทดสอบ 5 ข้อ</p>
+                    
+                    <div class="form-floating mb-4">
+                        <input type="text" class="form-control rounded-pill px-4" id="player-name" placeholder="ชื่อของคุณ">
+                        <label for="player-name" class="px-4">กรอกชื่อของคุณ (เช่น มนภวัต)</label>
+                    </div>
+
+                    <button class="btn btn-gradient w-100 py-3 rounded-pill fw-bold fs-5 shadow-sm" onclick="startQuiz()">
                         เริ่มทำข้อสอบ
                     </button>
                 </div>
 
                 <div id="quiz-play" style="display: none;">
-                    <div class="d-flex justify-content-between mb-4">
-                        <span class="badge bg-light text-dark border px-3 py-2 rounded-pill">ข้อที่ <span id="q-now">1</span>/5</span>
-                        <span class="text-primary fw-bold">Score: <span id="score">0</span></span>
+                    <div class="d-flex justify-content-between mb-4 align-items-center">
+                        <span class="badge bg-light text-dark border px-3 py-2 rounded-pill fs-6">ข้อที่ <span id="q-now">1</span>/5</span>
+                        <div class="text-end">
+                            <small class="text-muted d-block" style="font-size:0.7rem">SCORE</small>
+                            <span class="text-primary fw-bold fs-4" id="score">0</span>
+                        </div>
                     </div>
                     
-                    <img id="q-img" src="" class="img-fluid mb-4 rounded shadow-sm floating-element" style="height: 150px;">
-                    <h5 class="fw-bold mb-4">ป้ายนี้มีความหมายว่า?</h5>
+                    <img id="q-img" src="" class="img-fluid mb-4 rounded-4 shadow-sm floating-element border p-3" style="height: 180px; object-fit: contain;">
+                    <h4 class="fw-bold mb-4 text-dark">ป้ายนี้มีความหมายว่า?</h4>
                     
                     <div id="q-choices" class="d-grid gap-3"></div>
                 </div>
@@ -244,17 +287,25 @@
         </div>
 
         <div id="section-history" class="page-section" style="display: none;">
-            <div class="content-card p-0 overflow-hidden" data-aos="fade-up">
-                <div class="p-4 border-bottom d-flex justify-content-between align-items-center bg-light">
-                    <h5 class="m-0 fw-bold"><i class="fas fa-list me-2"></i>ประวัติคะแนน</h5>
-                    <button class="btn btn-sm btn-outline-danger rounded-pill" onclick="clearHistory()">ล้างข้อมูล</button>
+            <div class="content-card p-0 overflow-hidden border-0 shadow-lg" data-aos="fade-up">
+                <div class="p-4 border-bottom d-flex justify-content-between align-items-center bg-white">
+                    <h5 class="m-0 fw-bold text-dark"><i class="fas fa-list-alt me-2 text-primary"></i>ประวัติคะแนน</h5>
+                    <button class="btn btn-sm btn-light text-danger rounded-pill px-3 border" onclick="clearHistory()">
+                        <i class="fas fa-trash-alt me-1"></i> ล้างข้อมูล
+                    </button>
                 </div>
-                <table class="table table-hover mb-0">
-                    <thead class="table-white">
-                        <tr><th class="ps-4">วันที่</th><th>ชื่อ</th><th class="text-end pe-4">คะแนน</th></tr>
-                    </thead>
-                    <tbody id="history-table"></tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0 align-middle">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="ps-4 py-3 text-secondary">วันที่</th>
+                                <th class="py-3 text-secondary">ชื่อผู้สอบ</th>
+                                <th class="text-end pe-4 py-3 text-secondary">คะแนน</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-table"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -266,13 +317,13 @@
     <script>
         AOS.init({ duration: 800, once: true });
 
-        // Data
         const data = [
-            { id: 1, title: "ป้ายหยุด", desc: "รถทุกคันต้องหยุด", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/STOP_sign.jpg/600px-STOP_sign.jpg", ans: 1, choices: ["ห้ามเข้า", "หยุด", "ชะลอ", "ห้ามจอด"] },
+            { id: 1, title: "ป้ายหยุด", desc: "รถทุกคันต้องหยุดให้สนิท", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/STOP_sign.jpg/600px-STOP_sign.jpg", ans: 1, choices: ["ห้ามเข้า", "หยุด", "ชะลอ", "ห้ามจอด"] },
             { id: 2, title: "ห้ามเลี้ยวขวา", desc: "ห้ามเลี้ยวไปทางขวา", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Thailand_road_sign_P-5.svg/600px-Thailand_road_sign_P-5.svg.png", ans: 2, choices: ["ห้ามซ้าย", "กลับรถ", "ห้ามเลี้ยวขวา", "ทางเอก"] },
             { id: 3, title: "ทางม้าลาย", desc: "ทางข้ามคนเดินเท้า", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Thailand_road_sign_W-29.svg/600px-Thailand_road_sign_W-29.svg.png", ans: 0, choices: ["ทางม้าลาย", "โรงเรียน", "ระวังคน", "ทางลื่น"] },
             { id: 4, title: "จำกัดความเร็ว 50", desc: "ห้ามขับเร็วเกิน 50", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Thailand_road_sign_R-32-50.svg/600px-Thailand_road_sign_R-32-50.svg.png", ans: 2, choices: ["ขับช้า", "น้ำหนักเกิน", "จำกัดความเร็ว", "ระยะห่าง"] },
-            { id: 5, title: "วงเวียน", desc: "ให้รถในวงเวียนไปก่อน", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Thailand_road_sign_R-14.svg/600px-Thailand_road_sign_R-14.svg.png", ans: 0, choices: ["วงเวียน", "กลับรถ", "ห้ามเลี้ยว", "ทางโค้ง"] }
+            { id: 5, title: "วงเวียน", desc: "ให้รถในวงเวียนไปก่อน", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Thailand_road_sign_R-14.svg/600px-Thailand_road_sign_R-14.svg.png", ans: 0, choices: ["วงเวียน", "กลับรถ", "ห้ามเลี้ยว", "ทางโค้ง"] },
+            { id: 6, title: "ห้ามเข้า", desc: "ห้ามรถทุกชนิดผ่านเข้าไป", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Thailand_road_sign_P-9.svg/600px-Thailand_road_sign_P-9.svg.png", ans: 1, choices: ["ทางตัน", "ห้ามเข้า", "ห้ามจอด", "หยุดตรวจ"] }
         ];
 
         // Typing Effect
@@ -282,30 +333,39 @@
             if (i < text.length) {
                 document.getElementById('type-text').innerHTML += text.charAt(i);
                 i++;
-                setTimeout(type, 100);
+                setTimeout(type, 80);
             } else {
                 document.getElementById('type-text').style.borderRight = "none";
             }
         }
-        setTimeout(type, 500);
+        setTimeout(type, 300);
 
         // UI Logic
         function toggleSidebar() {
             const sb = document.getElementById('sidebar');
             const ct = document.getElementById('content');
             const ov = document.getElementById('overlay');
-            if(window.innerWidth <= 768) { sb.classList.toggle('mobile-open'); ov.classList.toggle('active'); }
-            else { sb.classList.toggle('closed'); ct.classList.toggle('full-width'); }
+            if(window.innerWidth <= 768) { 
+                sb.classList.toggle('mobile-open'); 
+                ov.classList.toggle('active'); 
+            } else { 
+                sb.classList.toggle('closed'); 
+                ct.classList.toggle('full-width'); 
+            }
         }
 
         function showSection(id, el) {
-            document.querySelectorAll('.page-section').forEach(p => { p.style.display='none'; p.classList.remove('active'); });
+            document.querySelectorAll('.page-section').forEach(p => { 
+                p.style.display='none'; 
+                p.classList.remove('active'); 
+            });
             const target = document.getElementById('section-'+id);
             target.style.display='block';
             
             setTimeout(() => { target.classList.add('active'); AOS.refresh(); }, 50); 
 
-            document.getElementById('page-title').innerText = {'landing':'หน้าแรก','lessons':'บทเรียน','quiz':'แบบทดสอบ','history':'ประวัติ'}[id];
+            const titles = {'landing':'หน้าแรก','lessons':'บทเรียน','quiz':'แบบทดสอบ','history':'ประวัติคะแนน'};
+            document.getElementById('page-title').innerText = titles[id];
             
             if(el) {
                 document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
@@ -319,11 +379,12 @@
             const grid = document.getElementById('sign-grid');
             grid.innerHTML = data.map((item, idx) => `
                 <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="${idx * 100}">
-                    <div class="sign-card text-center h-100" onclick="alert('${item.title}\\n${item.desc}')">
-                        <div class="floating-element mb-2" style="height:100px; display:flex; align-items:center; justify-content:center;">
-                            <img src="${item.img}" style="max-height:80px; max-width:100%;">
+                    <div class="sign-card text-center h-100" onclick="alert('${item.title}\\n\\n${item.desc}')">
+                        <div class="floating-element mb-3" style="height:100px; display:flex; align-items:center; justify-content:center;">
+                            <img src="${item.img}" style="max-height:90px; max-width:100%; object-fit:contain;">
                         </div>
-                        <h6 class="fw-bold text-dark mb-0">${item.title}</h6>
+                        <h6 class="fw-bold text-dark mb-1">${item.title}</h6>
+                        <small class="text-primary" style="font-size:0.75rem">แตะเพื่อดูรายละเอียด</small>
                     </div>
                 </div>
             `).join('');
@@ -333,7 +394,10 @@
         let qIdx=0, score=0, uName="";
         function startQuiz() {
             uName=document.getElementById('player-name').value;
-            if(!uName) return alert('กรุณาใส่ชื่อครับ');
+            if(!uName) {
+                document.getElementById('player-name').focus();
+                return alert('กรุณาใส่ชื่อก่อนเริ่มสอบครับ');
+            }
             score=0; qIdx=0;
             document.getElementById('quiz-start').style.display='none';
             document.getElementById('quiz-play').style.display='block';
@@ -345,16 +409,26 @@
             document.getElementById('score').innerText = score;
             document.getElementById('q-img').src = d.img;
             let h = "";
-            d.choices.forEach((c,i)=> h+=`<button class="btn btn-outline-primary py-3 rounded-3 shadow-sm text-start ps-4" onclick="check(${i})">${c}</button>`);
+            d.choices.forEach((c,i)=> {
+                h += `<button class="btn btn-outline-dark py-3 rounded-3 shadow-sm text-start ps-4 fw-medium" 
+                      onmouseover="this.classList.add('bg-light')" 
+                      onmouseout="this.classList.remove('bg-light')"
+                      onclick="check(${i})">${c}</button>`;
+            });
             document.getElementById('q-choices').innerHTML=h;
         }
         function check(c) {
-            if(c===data[qIdx].ans) score++;
+            if(c===data[qIdx].ans) {
+                score++;
+                // Optional: Sound Effect
+            }
             if(++qIdx < 5) loadQ();
             else {
                 confetti({particleCount:150, spread:70, origin:{y:0.6}});
-                alert(`จบการสอบ! คุณ ${uName} ได้ ${score}/5`);
+                alert(`จบการสอบ! คุณ ${uName} ได้ ${score}/5 คะแนน`);
                 saveHistory(uName, score);
+                
+                // Reset UI
                 document.getElementById('quiz-start').style.display='block';
                 document.getElementById('quiz-play').style.display='none';
                 document.getElementById('player-name').value='';
@@ -364,17 +438,22 @@
 
         // History
         function saveHistory(n,s) {
-            const h = JSON.parse(localStorage.getItem('mpw_app'))||[];
+            const h = JSON.parse(localStorage.getItem('mpw_final'))||[];
             h.unshift({n,s,d:new Date().toLocaleString('th-TH')});
-            localStorage.setItem('mpw_app',JSON.stringify(h));
+            localStorage.setItem('mpw_final',JSON.stringify(h));
         }
         function loadHistory() {
-            const h = JSON.parse(localStorage.getItem('mpw_app'))||[];
+            const h = JSON.parse(localStorage.getItem('mpw_final'))||[];
             const t = document.getElementById('history-table');
-            if(!h.length) t.innerHTML='<tr><td colspan="3" class="text-center py-4 text-muted">ไม่มีข้อมูล</td></tr>';
-            else t.innerHTML = h.map(x=>`<tr><td class="ps-4 small text-muted">${x.d}</td><td>${x.n}</td><td class="text-end pe-4 fw-bold text-primary">${x.s}</td></tr>`).join('');
+            if(!h.length) t.innerHTML='<tr><td colspan="3" class="text-center py-5 text-muted">ยังไม่มีประวัติการสอบ</td></tr>';
+            else t.innerHTML = h.map(x=>`
+                <tr>
+                    <td class="ps-4 small text-muted">${x.d}</td>
+                    <td class="fw-medium">${x.n}</td>
+                    <td class="text-end pe-4 fw-bold text-primary">${x.s}</td>
+                </tr>`).join('');
         }
-        function clearHistory() { localStorage.removeItem('mpw_app'); loadHistory(); }
+        function clearHistory() { localStorage.removeItem('mpw_final'); loadHistory(); }
 
         window.onload = () => { renderContent(); loadHistory(); };
     </script>
