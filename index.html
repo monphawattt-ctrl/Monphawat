@@ -3,190 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Traffic Ed - สื่อการสอนโดย มนภวัต</title>
+    <title>Traffic Ed Pro - สื่อการสอนโดย มนภวัต</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-    <meta name="description" content="สื่อการสอนเครื่องหมายจราจร เรียนรู้กฎจราจรเบื้องต้น พร้อมแบบทดสอบออนไลน์ ใช้งานฟรี บนมือถือและคอมพิวเตอร์ พัฒนาโดย มนภวัต">
-<meta name="keywords" content="เครื่องหมายจราจร, สอบใบขับขี่, กฎจราจร, ป้ายจราจร, แบบทดสอบใบขับขี่, สื่อการสอน, มนภวัต">
-<meta name="author" content="มนภวัต">
-
-<meta property="og:title" content="Traffic Ed - สื่อการสอนจราจร โดย มนภวัต">
-<meta property="og:description" content="เรียนรู้ป้ายจราจรและกฎหมายจราจรไทย พร้อมทำข้อสอบวัดผลได้ทันที">
-<meta property="og:image" content="https://placehold.co/1200x630/2563eb/white?text=Traffic+Ed"> <meta property="og:url" content="https://monphawattt.github.io/ชื่อrepoของคุณ">
+    <meta name="description" content="สื่อการสอนเครื่องหมายจราจร เรียนรู้กฎจราจรเบื้องต้น พร้อมแบบทดสอบออนไลน์ พัฒนาโดย มนภวัต">
+    <meta name="keywords" content="เครื่องหมายจราจร, สอบใบขับขี่, กฎจราจร, ป้ายจราจร, สื่อการสอน, มนภวัต">
+    <meta name="author" content="มนภวัต">
 
     <style>
         :root {
+            /* Light Mode Variables (ค่าสีเริ่มต้น) */
             --primary-color: #2563eb;
             --primary-light: #eff6ff;
             --sidebar-width: 260px;
-            --text-dark: #1e293b;
-            --bg-light: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-sidebar: rgba(255, 255, 255, 0.95);
+            --border-color: rgba(0,0,0,0.05);
+            --shadow: 0 10px 30px -10px rgba(0,0,0,0.06);
+        }
+
+        /* --- Dark Mode Configuration --- */
+        [data-theme="dark"] {
+            --primary-color: #60a5fa;
+            --primary-light: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --bg-sidebar: rgba(15, 23, 42, 0.95);
+            --border-color: rgba(255,255,255,0.1);
+            --shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
         }
 
         body {
             font-family: 'Sarabun', sans-serif;
-            background-color: var(--bg-light);
+            background-color: var(--bg-body);
+            color: var(--text-main);
             margin: 0;
-            overflow-x: hidden; /* ป้องกันการเลื่อนซ้ายขวา */
-            color: var(--text-dark);
+            overflow-x: hidden;
             line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        /* --- Typography --- */
-        h1, h2, h3, h4, h5, h6 { font-weight: 700; margin-bottom: 1rem; word-wrap: break-word; } /* ตัดคำถ้ายาวเกิน */
-        p, li {
-            line-height: 1.8;
-            margin-bottom: 1rem;
-            font-size: 1rem;
-            color: #475569;
-        }
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 { font-weight: 700; margin-bottom: 1rem; color: var(--text-main); }
+        p, li { line-height: 1.9; margin-bottom: 1.2rem; font-size: 1rem; color: var(--text-muted); }
 
-        /* --- Animations --- */
-        @keyframes float-idle {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-        @keyframes bg-move {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(20px, 20px) rotate(5deg); }
-        }
-
+        /* Animations */
+        @keyframes float-idle { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+        @keyframes bg-move { 0% { transform: translate(0, 0) rotate(0deg); } 100% { transform: translate(20px, 20px) rotate(5deg); } }
         .floating-element { animation: float-idle 3s ease-in-out infinite; }
         
         .bg-shape {
-            position: fixed; border-radius: 50%; filter: blur(80px); z-index: -1; opacity: 0.6;
+            position: fixed; border-radius: 50%; filter: blur(80px); z-index: -1; opacity: 0.5;
             animation: bg-move 10s infinite alternate;
         }
-        .shape-1 { top: -50px; right: -50px; width: 400px; height: 400px; background: #dbeafe; }
-        .shape-2 { bottom: 0; left: 0; width: 500px; height: 500px; background: #e9d5ff; animation-delay: 2s; }
+        .shape-1 { top: -50px; right: -50px; width: 400px; height: 400px; background: var(--primary-color); opacity: 0.15; }
+        .shape-2 { bottom: 0; left: 0; width: 500px; height: 500px; background: #818cf8; opacity: 0.15; animation-delay: 2s; }
 
-        /* --- Sidebar --- */
+        /* Sidebar */
         #sidebar {
             width: var(--sidebar-width); height: 100vh;
-            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+            background: var(--bg-sidebar); backdrop-filter: blur(10px);
             position: fixed; top: 0; left: 0; z-index: 1000;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border-right: 1px solid rgba(0,0,0,0.05);
-            box-shadow: 4px 0 20px rgba(0,0,0,0.02);
+            transition: all 0.4s; border-right: 1px solid var(--border-color);
             display: flex; flex-direction: column;
         }
         #sidebar.closed { margin-left: calc(var(--sidebar-width) * -1); }
 
         .menu-item {
-            padding: 16px 25px; cursor: pointer; color: #64748b; font-weight: 500;
+            padding: 16px 25px; cursor: pointer; color: var(--text-muted); font-weight: 500;
             transition: 0.3s; display: flex; align-items: center; border-radius: 12px; margin: 5px 15px;
         }
         .menu-item:hover, .menu-item.active {
-            background: var(--primary-light); color: var(--primary-color); transform: translateX(5px);
-            font-weight: 600;
+            background: var(--primary-light); color: var(--primary-color); transform: translateX(5px); font-weight: 600;
         }
         .menu-item i { width: 35px; font-size: 1.2rem; }
 
-        /* --- Main Content --- */
+        /* Content & Cards */
         #content { margin-left: var(--sidebar-width); transition: all 0.4s; padding: 40px; min-height: 100vh; }
         #content.full-width { margin-left: 0; }
 
         .content-card {
-            background: white; border-radius: 24px; padding: 40px;
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.06); margin-bottom: 30px;
-            border: 1px solid rgba(255,255,255,0.8); transition: transform 0.3s;
-            overflow: hidden; /* ป้องกันเนื้อหาล้นการ์ด */
+            background: var(--bg-card); border-radius: 24px; padding: 40px;
+            box-shadow: var(--shadow); margin-bottom: 30px;
+            border: 1px solid var(--border-color); transition: transform 0.3s; overflow: hidden;
         }
         .content-card:hover { transform: translateY(-5px); }
 
         .sign-card {
-            background: white; border-radius: 16px; padding: 25px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03); border: 1px solid #f1f5f9;
-            transition: all 0.3s; cursor: pointer; height: 100%;
+            background: var(--bg-card); border-radius: 16px; padding: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03); border: 1px solid var(--border-color);
+            transition: all 0.3s; cursor: pointer; height: 100%; position: relative;
         }
         .sign-card:hover {
             transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 25px -5px rgba(37, 99, 235, 0.15); border-color: var(--primary-color);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); border-color: var(--primary-color);
+        }
+        
+        /* แก้รูปภาพให้เท่ากัน */
+        .sign-card img {
+            width: 100%; height: 120px; object-fit: contain; margin-bottom: 15px;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1));
+        }
+        
+        /* สไตล์สำหรับรูปที่แทรกในเนื้อหาบทเรียน (ตามที่คุณส่งมา) */
+        .lesson-content img {
+            max-width: 100%; 
+            max-height: 200px; 
+            width: auto; 
+            height: auto;
+            object-fit: contain; 
+            display: block; 
+            margin: 20px 0; /* ชิดซ้ายตามสไตล์เดิม หรือใช้ margin: 20px auto; เพื่อจัดกลาง */
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
         }
 
+        /* Buttons & Inputs */
         .btn-gradient {
-            background: linear-gradient(135deg, #2563eb, #4f46e5); border: none; color: white; transition: 0.3s;
+            background: linear-gradient(135deg, var(--primary-color), #4f46e5); border: none; color: white; transition: 0.3s;
         }
         .btn-gradient:hover {
-            background: linear-gradient(135deg, #1d4ed8, #4338ca);
-            transform: translateY(-3px); box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3); color: white;
+            opacity: 0.9; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3); color: white;
+        }
+        
+        /* Theme Switcher */
+        .theme-switch {
+            cursor: pointer; padding: 10px; border-radius: 50%; width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center; transition: 0.3s;
+            background: var(--primary-light); color: var(--primary-color); border: none;
         }
 
+        /* Search Bar */
+        .search-container { position: relative; margin-bottom: 30px; }
+        .search-input {
+            width: 100%; padding: 15px 20px 15px 50px; border-radius: 50px; border: 2px solid var(--border-color);
+            background: var(--bg-card); color: var(--text-main); transition: 0.3s; font-size: 1rem;
+        }
+        .search-input:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 4px var(--primary-light); }
+        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+
         .typing-wrapper { 
-            display: inline-block; 
-            overflow: hidden; 
-            white-space: normal; /* แก้ให้ขึ้นบรรทัดใหม่ได้ */
-            border-right: 3px solid var(--primary-color); 
-            animation: blink 0.75s step-end infinite; 
-            max-width: 100%;
+            display: inline-block; overflow: hidden; white-space: normal;
+            border-right: 3px solid var(--primary-color); animation: blink 0.75s step-end infinite; max-width: 100%;
         }
         @keyframes blink { 50% { border-color: transparent; } }
 
-        /* --- MOBILE FIXES (แก้ปัญหาจอมือถือ) --- */
+        /* Modal Styles */
+        .modal-content { background-color: var(--bg-card); color: var(--text-main); }
+        .modal-header { border-bottom-color: var(--border-color); }
+        .modal-footer { border-top-color: var(--border-color); }
+        .btn-close { filter: invert(var(--invert-val)); }
+        [data-theme="dark"] { --invert-val: 1; }
+
         @media (max-width: 768px) {
             #sidebar { margin-left: calc(var(--sidebar-width) * -1); }
             #sidebar.mobile-open { margin-left: 0; }
-            
-            /* ลด Padding ของ Content หลัก */
-            #content { 
-                margin-left: 0; 
-                padding: 20px 15px; /* บนล่าง 20, ซ้ายขวา 15 */
-                overflow-x: hidden;
-            }
-            
-            .overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:900; backdrop-filter: blur(3px); }
+            #content { margin-left: 0; padding: 20px 15px; }
+            .overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:900; backdrop-filter: blur(3px); }
             .overlay.active { display: block; }
-
-            /* ปรับการ์ดให้ขอบบางลงในมือถือ */
-            .content-card {
-                padding: 25px 20px; /* ลดจาก 40px เหลือ 20px */
-                border-radius: 20px;
-            }
-
-            /* ปรับขนาดตัวอักษรหัวข้อใหญ่ */
-            h1.display-5 {
-                font-size: 1.75rem !important; /* บังคับลดขนาดฟอนต์ */
-                line-height: 1.3;
-            }
-
-            /* ปรับไอคอนรถให้เล็กลงหน่อย */
-            .fa-4x { font-size: 3em; }
-
-            /* ปรับ Typing Text */
-            .typing-wrapper {
-                white-space: pre-wrap; /* ให้ตัดคำได้ */
-                border: none; /* เอาเคอร์เซอร์กระพริบออกในมือถือกันเพี้ยน */
-                animation: none;
-            }
+            .content-card { padding: 25px 20px; }
+            h1.display-5 { font-size: 1.75rem !important; }
         }
-
-        /* --- แก้ปัญหารูปภาพ --- */
-
-/* 1. สำหรับรูปใน "แกลเลอรี่" (ให้เท่ากันเป๊ะๆ) */
-.sign-card img {
-    width: 100%;           /* ความกว้างเต็มกรอบ */
-    height: 120px;         /* บังคับความสูงเท่ากันทุกรูป (ปรับเลขได้) */
-    object-fit: contain;   /* ย่อรูปให้พอดีกรอบโดยไม่เบี้ยว (สำคัญมาก!) */
-    margin-bottom: 15px;   /* เว้นระยะห่างด้านล่าง */
-}
-
-/* 2. สำหรับรูปใน "เนื้อหาบทเรียน" (แก้รูปยักษ์) */
-.content-card img {
-    max-width: 100%;       /* ห้ามกว้างเกินหน้าจอ */
-    max-height: 200px;     /* ห้ามสูงเกิน 200px (แก้ปัญหารูปเต็มจอ) */
-    width: auto;           /* ให้ความกว้างปรับตามสัดส่วน */
-    height: auto;
-    object-fit: contain;
-    display: block;        /* จัดบล็อก */
-    margin: 20px auto;     /* จัดกึ่งกลางหน้ากระดาษ */
-}
-
-
     </style>
 </head>
 <body>
@@ -197,7 +183,7 @@
 
     <nav id="sidebar">
         <div class="p-4 d-flex justify-content-between align-items-center">
-            <h4 class="fw-bold text-primary m-0" style="letter-spacing: -1px;">
+            <h4 class="fw-bold m-0" style="color: var(--primary-color); letter-spacing: -1px;">
                 <i class="fas fa-traffic-light me-2"></i>Traffic Ed
             </h4>
             <i class="fas fa-times d-md-none text-muted fs-4" onclick="toggleSidebar()"></i>
@@ -219,36 +205,41 @@
         </div>
 
         <div class="mt-auto p-4 text-center">
-            <div class="bg-light p-3 rounded-4 shadow-sm border">
-                <div class="mb-2 text-primary"><i class="fas fa-code"></i></div>
-                <small class="text-muted d-block">Developed by</small>
-                <strong class="text-dark">มนภวัต</strong>
+            <div class="p-3 rounded-4 border" style="background: var(--bg-card);">
+                <div class="mb-2" style="color: var(--primary-color);"><i class="fas fa-code"></i></div>
+                <small class="d-block" style="color: var(--text-muted);">Developed by</small>
+                <strong style="color: var(--text-main);">มนภวัต</strong>
             </div>
         </div>
     </nav>
 
     <div id="content">
-        <div class="d-flex align-items-center mb-4" data-aos="fade-down">
-            <button class="btn btn-white bg-white shadow-sm border me-3 rounded-3 px-3 py-2" onclick="toggleSidebar()">
-                <i class="fas fa-bars text-secondary"></i>
-            </button>
-            <div>
-                <small class="text-muted d-block" style="font-size: 0.8rem;">Current Page</small>
-                <h5 class="m-0 fw-bold text-dark" id="page-title">หน้าแรก</h5>
+        <div class="d-flex align-items-center justify-content-between mb-4" data-aos="fade-down">
+            <div class="d-flex align-items-center">
+                <button class="btn shadow-sm border me-3 rounded-3 px-3 py-2 d-lg-none" style="background: var(--bg-card); color: var(--text-main);" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div>
+                    <small class="d-block" style="color: var(--text-muted); font-size: 0.8rem;">Current Page</small>
+                    <h5 class="m-0 fw-bold" id="page-title">หน้าแรก</h5>
+                </div>
             </div>
+            <button class="theme-switch shadow-sm" onclick="toggleTheme()" title="เปลี่ยนโหมด">
+                <i class="fas fa-moon" id="theme-icon"></i>
+            </button>
         </div>
 
         <div id="section-landing" class="page-section active">
             <div class="content-card text-center py-5" data-aos="zoom-in">
                 <div class="floating-element mb-4">
-                    <span class="d-inline-block p-3 rounded-circle bg-primary bg-opacity-10 text-primary">
+                    <span class="d-inline-block p-3 rounded-circle" style="background: var(--primary-light); color: var(--primary-color);">
                         <i class="fas fa-car-side fa-4x"></i>
                     </span>
                 </div>
-                <h1 class="fw-bold mb-3 display-5 text-dark">
+                <h1 class="fw-bold mb-3 display-5">
                     <span id="type-text" class="typing-wrapper"></span>
                 </h1>
-                <p class="text-secondary mb-5 mx-auto" style="max-width: 600px;">
+                <p class="mb-5 mx-auto" style="max-width: 600px; color: var(--text-muted);">
                     เรียนรู้กฎจราจรและสัญลักษณ์จราจรต่างๆ อย่างถูกต้องและเข้าใจง่าย <br class="d-none d-md-block">
                     เพื่อความปลอดภัยสูงสุดบนท้องถนนของคุณ
                 </p>
@@ -262,177 +253,161 @@
                     <div class="sign-card text-center h-100 border-0 shadow-sm">
                         <div class="mb-3 text-success floating-element"><i class="fas fa-check-circle fa-3x"></i></div>
                         <h5 class="fw-bold">ข้อมูลถูกต้อง</h5>
-                        <p class="text-muted small mb-0">เนื้อหาอ้างอิงจากกฎหมายจราจรทางบก</p>
+                        <p class="small mb-0 text-muted">เนื้อหาอ้างอิงจากกฎหมายจราจรทางบก</p>
                     </div>
                 </div>
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
                     <div class="sign-card text-center h-100 border-0 shadow-sm">
                         <div class="mb-3 text-warning floating-element"><i class="fas fa-mobile-alt fa-3x"></i></div>
                         <h5 class="fw-bold">รองรับมือถือ</h5>
-                        <p class="text-muted small mb-0">เรียนรู้ได้ทุกที่ ทุกเวลา บนทุกอุปกรณ์</p>
+                        <p class="small mb-0 text-muted">เรียนรู้ได้ทุกที่ ทุกเวลา บนทุกอุปกรณ์</p>
                     </div>
                 </div>
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
                     <div class="sign-card text-center h-100 border-0 shadow-sm">
                         <div class="mb-3 text-primary floating-element"><i class="fas fa-star fa-3x"></i></div>
                         <h5 class="fw-bold">เข้าใจง่าย</h5>
-                        <p class="text-muted small mb-0">อธิบายด้วยภาพประกอบที่ชัดเจน</p>
+                        <p class="small mb-0 text-muted">อธิบายด้วยภาพประกอบที่ชัดเจน</p>
                     </div>
                 </div>
             </div>
         </div>
 
         <div id="section-lessons" class="page-section" style="display: none;">
-            <div class="content-card" data-aos="fade-left">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <span class="badge bg-primary bg-opacity-10 text-primary mb-2 px-3 py-2 rounded-pill">Introduction</span>
-                        <h2 class="fw-bold text-dark mb-4">เครื่องหมายจราจรตามกฎหมายไทย</h2>
-                        
-                        <h5 class="fw-bold text-primary"><i class="fas fa-book me-2"></i>บทนำ</h5>
-                        <p>
-                            เครื่องหมายจราจรเป็นองค์ประกอบสำคัญของระบบความปลอดภัยทางถนน มีหน้าที่ควบคุม บังคับ เตือน 
-                            และให้ข้อมูลแก่ผู้ใช้ทาง เพื่อให้การจราจรเป็นระเบียบ ลดอุบัติเหตุ และรักษาความปลอดภัยของประชาชน
-                        </p>
-                        
-                        <h5 class="fw-bold text-primary mt-4"><i class="fas fa-gavel me-2"></i>ความหมายทางกฎหมาย</h5>
-                        <p>
-                            ตาม พ.ร.บ.จราจรทางบก พ.ศ. 2522 "เครื่องหมายจราจร" หมายถึง เครื่องหมาย สัญลักษณ์ เส้น เครื่องหมายบนพื้นทาง 
-                            ป้าย หรือสิ่งอื่นใดที่เจ้าพนักงานจราจรติดตั้งหรือทำให้ปรากฏ เพื่อควบคุมหรือแนะนำการใช้ทาง
-                        </p>
-                        <p>ผู้ใช้ทางทุกคน มีหน้าที่ต้องปฏิบัติตามเครื่องหมายจราจรหากฝ่าฝืน มีโทษปรับตามที่กฎหมายกำหนด</p>   
-                        <h5 class="fw-bold text-primary mt-4"><i class="fas fa-gavel me-2"></i>ประเภทของเครื่องหมายจราจรในประเทศไทย</h5>
-                        <p>ประเทศไทยแบ่งเครื่องหมายจราจรออกเป็น 5 ประเภทหลัก</p>
-                        <h2>ประเภทที่ 1 : เครื่องหมายจราจรประเภทบังคับ (Regulatory Signs)</h2>
-                        <p>เป็นป้ายที่ “ต้องปฏิบัติตามโดยเคร่งครัด”</p>
-                        <h2>ลักษณะทั่วไป</h2>
-                        <p>รูปวงกลม (ส่วนมาก)</p>
-                        <p>ขอบสีแดง = เครื่องหมายห้าม</p>
-                        <p>พื้นสีน้ำเงิน = เครื่องหมายบังคับให้ปฏิบัติ</p>
-                        <h2>ตัวอย่างสำคัญ</h2>
-                        <strong>1. ป้ายหยุด (STOP)</strong>
-                        <img src="หยุด1 (1).jpg" alt="">
-                        <p>รูปแปดเหลี่ยม สีแดง ตัวอักษรสีขาว</p>
-                        <p>ต้องหยุดรถก่อนถึงเส้นหยุด</p>
-                        <p>ฝ่าฝืนมีโทษปรับ</p>
-                        <strong>2. ป้ายให้ทาง</strong>
-                        <img src="Thailand_road_sign_บ-2-1 (1).svg" alt="">
-                        <p>รูปสามเหลี่ยมหัวกลับ</p>
-                        <p>ต้องชะลอและให้รถทางเอกไปก่อน</p>
-                        <strong>3. ป้ายจำกัดความเร็ว</strong>
-                        <img src="60.svg" alt="">
-                        <p>ระบุความเร็วสูงสุด เช่น 60 กม./ชม.</p>
-                        <p>ห้ามขับเกิน</p>
-                        <strong>4. ป้ายห้ามเข้า</strong>
-                        <img src="ห้ามเข้า.jpg" alt="">
-                        <strong>5. ป้ายห้ามเลี้ยวซ้าย / ขวา</strong>
-                        <img src="ป้ายห้ามเลี้ยวซ้าย ขวา.svg" alt="">
-                        <p>สัญลักษณ์ลูกศรถูกขีดทับ</p>
-                        <strong>6. ป้ายห้ามกลับรถ</strong>
-                        <img src="ป้ายห้ามกลับรถ.jpg" alt="">
-                        <p>ห้ามกลับรถในจุดนั้น</p>
-                        <strong>7. ป้ายห้ามจอด</strong>
-                        <img src="ป้ายห้ามจอด.svg" alt="">
-                        <p>วงกลมแดง กากบาท</p>
-                        <strong>8. ป้ายห้ามหยุดรถ</strong>
-                        <img src="ป้ายห้ามหยุดรถ.png" alt="">
-                        <p>ห้ามแม้กระทั่งหยุดรับ-ส่ง</p>
-                        <h2>ประเภทที่ 2 : เครื่องหมายเตือน (Warning Signs)</h2>
-                        <p>ใช้เตือนให้ระวังอันตรายล่วงหน้า</p>
-                        <strong>ลักษณะทั่วไป</strong>
-                        <p>รูปสี่เหลี่ยมข้าวหลามตัด (เพชร)</p>
-                        <p>พื้นสีเหลือง สัญลักษณ์สีดำ</p>
-                        <strong>ตัวอย่างสำคัญ</strong>
-                        <p>ทางโค้งซ้าย / ขวา</p>
-                        <p>ทางโค้งรูปตัว S</p>
-                        <p>ทางแยกข้างหน้า</p>
-                        <p>ทางแคบลง</p>
-                        <p>สะพานแคบ</p>
-                        <p>ทางลาดชัน</p>
-                        <p>ทางขรุขระ</p>
-                        <p>ถนนลื่น</p>
-                        <p>คนข้ามถนน</p>
-                        <p>โรงเรียน</p>
-                        <p>ทางรถไฟตัดผ่าน</p>
-                        <p>สัตว์ข้ามทาง</p>
-                        <p>วงเวียนข้างหน้า</p>
-                        <p>ผู้ขับขี่ต้องลดความเร็วและเพิ่มความระมัดระวัง</p>
-                        <img src="ป้ายเตือน.jpg" alt="">
-                        <h2>ประเภทที่ 3 : เครื่องหมายแนะนำ (Guide Signs)</h2>
-                        <p>ให้ข้อมูลด้านเส้นทางและบริการ</p>
-                        <strong>ลักษณะ</strong>
-                        <p>พื้นสีเขียว = ทางหลวง</p>
-                        <p>พื้นสีน้ำเงิน = ทางทั่วไป / บริการ</p>
-                        <p>พื้นสีน้ำตาล = สถานที่ท่องเที่ยว</p>
-                        <strong>ตัวอย่าง</strong>
-                        <p>ป้ายบอกชื่อจังหวัด</p>
-                        <p>ป้ายบอกระยะทาง</p>
-                        <p>ป้ายทางไปโรงพยาบาล</p>
-                        <p>ป้ายสถานีบริการน้ำมัน</p>
-                        <p>ป้ายที่จอดรถ</p>
-                        <p>ป้ายสนามบิน</p>
-                        <p>ป้ายทางด่วน</p>
-                        <strong>ภาพตัวอย่าง</strong>
-                        <img src="ป้ายเเนะนำ.jpg" alt="">
-                        <h2>ประเภทที่ 4 : เครื่องหมายบนพื้นทาง (Road Markings)</h2>
-                        <p>เป็นเส้นหรือสัญลักษณ์ที่ทาบนพื้นถนน</p>
-                        <strong>เส้นแบ่งทิศทาง</strong>
-                        <p>เส้นทึบสีขาว = ห้ามเปลี่ยนเลน</p>
-                        <p>เส้นประสีขาว = เปลี่ยนเลนได้</p>
-                        <p>เส้นทึบคู่สีเหลือง = ห้ามแซง</p>
-                        <strong>เส้นหยุด</strong>
-                        <p>เส้นขวางก่อนถึงสัญญาณไฟ</p>
-                        <strong>ทางม้าลาย</strong>
-                        <p>สำหรับคนเดินเท้า</p>
-                        <strong>ลูกศรบนพื้นถนน</strong>
-                        <p>บอกทิศทางเลี้ยว</p>
-                        <strong>เส้นซิกแซกหน้าโรงเรียน</strong>
-                        <p>ห้ามจอด</p>
-                        <img src="ปเายเเนะนำ2.jpg" alt="">
-                        <h2>ประเภทที่ 5 : เครื่องหมายไฟจราจร</h2>
-                        <p>ไฟสัญญาณควบคุมการจราจร</p>
-                        <strong>ไฟ 3 สี</strong>
-                        <p>🔴 สีแดง = หยุด</p>
-                        <p>🟡 สีเหลือง = เตรียมหยุด</p>
-                        <p>🟢 สีเขียว = ไปได้</p>
-                        <p>มีทั้งไฟสำหรับ</p>
-                        <p>รถยนต์</p>
-                        <p>คนเดินเท้า</p>
-                        <p>ทางเลี้ยวเฉพาะ</p>
-                        <h2>โทษตามกฎหมาย</h2>
-                        <p>การฝ่าฝืนเครื่องหมายจราจร เช่น</p>
-                        <p>ฝ่าไฟแดง</p>
-                        <p>ไม่หยุดป้าย STOP</p>
-                        <p>ขับเกินความเร็ว</p>
-                        <p>จอดในที่ห้ามจอด</p>
-                        <strong>มีโทษปรับตั้งแต่หลักร้อยถึงหลักพันบาท และอาจถูกตัดคะแนนใบขับขี่ตามระบบใหม่</strong>
-                        <h2>หน่วยงานที่รับผิดชอบ</h2>
-                        <p>1. กรมทางหลวง – ดูแลถนนสายหลัก</p>
-                        <p>2. กรมทางหลวงชนบท – ดูแลถนนชนบท</p>
-                        <p>3. สำนักงานตำรวจแห่งชาติ – บังคับใช้กฎหมาย</p>
-                        <h2>ความสำคัญของเครื่องหมายจราจร</h2>
-                        <p>ลดอุบัติเหตุ</p>
-                        <p>ลดความสับสน</p>
-                        <p>สร้างระเบียบวินัย</p>
-                        <p>เพิ่มความปลอดภัยแก่คนเดินเท้า</p>
-                        <p>ช่วยให้การเดินทางมีประสิทธิภาพ</p>
-                        <h2>สรุป</h2>
-                        <p>เครื่องหมายจราจรในประเทศไทยถูกกำหนดตามกฎหมายอย่างชัดเจน ผู้ใช้ทางทุกคนมีหน้าที่ต้องปฏิบัติตาม การรู้จักและเข้าใจเครื่องหมายจราจรช่วยลดอุบัติเหตุและเพิ่มความปลอดภัยบนท้องถนน</p>
-                        
+            
+            <div class="content-card lesson-content" data-aos="fade-left">
+                <span class="badge mb-2 px-3 py-2 rounded-pill" style="background: var(--primary-light); color: var(--primary-color);">Introduction</span>
+                <h2 class="fw-bold mb-4">เครื่องหมายจราจรตามกฎหมายไทย</h2>
+                
+                <h5 class="fw-bold" style="color: var(--primary-color);"><i class="fas fa-book me-2"></i>บทนำ</h5>
+                <p>
+                    เครื่องหมายจราจรเป็นองค์ประกอบสำคัญของระบบความปลอดภัยทางถนน มีหน้าที่ควบคุม บังคับ เตือน 
+                    และให้ข้อมูลแก่ผู้ใช้ทาง เพื่อให้การจราจรเป็นระเบียบ ลดอุบัติเหตุ และรักษาความปลอดภัยของประชาชน
+                </p>
+                
+                <h5 class="fw-bold mt-4" style="color: var(--primary-color);"><i class="fas fa-gavel me-2"></i>ความหมายทางกฎหมาย</h5>
+                <p>
+                    ตาม พ.ร.บ.จราจรทางบก พ.ศ. 2522 "เครื่องหมายจราจร" หมายถึง เครื่องหมาย สัญลักษณ์ เส้น เครื่องหมายบนพื้นทาง 
+                    ป้าย หรือสิ่งอื่นใดที่เจ้าพนักงานจราจรติดตั้งหรือทำให้ปรากฏ เพื่อควบคุมหรือแนะนำการใช้ทาง
+                </p>
+                <p>ผู้ใช้ทางทุกคน มีหน้าที่ต้องปฏิบัติตามเครื่องหมายจราจร หากฝ่าฝืน มีโทษปรับตามที่กฎหมายกำหนด</p>   
 
+                <h5 class="fw-bold mt-4" style="color: var(--primary-color);"><i class="fas fa-list me-2"></i>ประเภทของเครื่องหมายจราจรในประเทศไทย</h5>
+                <p>ประเทศไทยแบ่งเครื่องหมายจราจรออกเป็น 5 ประเภทหลัก</p>
 
+                <h3 class="mt-4">ประเภทที่ 1 : เครื่องหมายจราจรประเภทบังคับ (Regulatory Signs)</h3>
+                <p>เป็นป้ายที่ “ต้องปฏิบัติตามโดยเคร่งครัด”</p>
+                <h4>ลักษณะทั่วไป</h4>
+                <p>รูปวงกลม (ส่วนมาก)</p>
+                <p>ขอบสีแดง = เครื่องหมายห้าม</p>
+                <p>พื้นสีน้ำเงิน = เครื่องหมายบังคับให้ปฏิบัติ</p>
+                <h4>ตัวอย่างสำคัญ</h4>
+                <strong>1. ป้ายหยุด (STOP)</strong>
+                <img src="หยุด1 (1).jpg" alt="ป้ายหยุด">
+                <p>รูปแปดเหลี่ยม สีแดง ตัวอักษรสีขาว</p>
+                <p>ต้องหยุดรถก่อนถึงเส้นหยุด</p>
+                <p>ฝ่าฝืนมีโทษปรับ</p>
 
+                <strong>2. ป้ายให้ทาง</strong>
+                <img src="Thailand_road_sign_บ-2-1 (1).svg" alt="ป้ายให้ทาง">
+                <p>รูปสามเหลี่ยมหัวกลับ</p>
+                <p>ต้องชะลอและให้รถทางเอกไปก่อน</p>
 
-                    </div>
-                    <div class="col-lg-4 text-center d-flex align-items-center justify-content-center">
-                        <i class="fas fa-book-open text-primary opacity-25 fa-8x floating-element d-none d-lg-block"></i>
-                    </div>
-                </div>
+                <strong>3. ป้ายจำกัดความเร็ว</strong>
+                <img src="60.svg" alt="ป้ายจำกัดความเร็ว">
+                <p>ระบุความเร็วสูงสุด เช่น 60 กม./ชม.</p>
+                <p>ห้ามขับเกิน</p>
+
+                <strong>4. ป้ายห้ามเข้า</strong>
+                <img src="ห้ามเข้า.jpg" alt="ป้ายห้ามเข้า">
+
+                <strong>5. ป้ายห้ามเลี้ยวซ้าย / ขวา</strong>
+                <img src="ป้ายห้ามเลี้ยวซ้าย ขวา.svg" alt="ป้ายห้ามเลี้ยว">
+                <p>สัญลักษณ์ลูกศรถูกขีดทับ</p>
+
+                <strong>6. ป้ายห้ามกลับรถ</strong>
+                <img src="ป้ายห้ามกลับรถ.jpg" alt="ป้ายห้ามกลับรถ">
+                <p>ห้ามกลับรถในจุดนั้น</p>
+
+                <strong>7. ป้ายห้ามจอด</strong>
+                <img src="ป้ายห้ามจอด.svg" alt="ป้ายห้ามจอด">
+                <p>วงกลมแดง กากบาท</p>
+
+                <strong>8. ป้ายห้ามหยุดรถ</strong>
+                <img src="ป้ายห้ามหยุดรถ.png" alt="ป้ายห้ามหยุดรถ">
+                <p>ห้ามแม้กระทั่งหยุดรับ-ส่ง</p>
+
+                <h3 class="mt-4">ประเภทที่ 2 : เครื่องหมายเตือน (Warning Signs)</h3>
+                <p>ใช้เตือนให้ระวังอันตรายล่วงหน้า</p>
+                <h4>ลักษณะทั่วไป</h4>
+                <p>รูปสี่เหลี่ยมข้าวหลามตัด (เพชร)</p>
+                <p>พื้นสีเหลือง สัญลักษณ์สีดำ</p>
+                <h4>ตัวอย่างสำคัญ</h4>
+                <p>ทางโค้งซ้าย / ขวา, ทางโค้งรูปตัว S, ทางแยกข้างหน้า, ทางแคบลง, สะพานแคบ, ทางลาดชัน, ทางขรุขระ, ถนนลื่น, คนข้ามถนน, โรงเรียน, ทางรถไฟตัดผ่าน, สัตว์ข้ามทาง, วงเวียนข้างหน้า</p>
+                <p>ผู้ขับขี่ต้องลดความเร็วและเพิ่มความระมัดระวัง</p>
+                <img src="ป้ายเตือน.jpg" alt="ป้ายเตือน">
+
+                <h3 class="mt-4">ประเภทที่ 3 : เครื่องหมายแนะนำ (Guide Signs)</h3>
+                <p>ให้ข้อมูลด้านเส้นทางและบริการ</p>
+                <h4>ลักษณะ</h4>
+                <p>พื้นสีเขียว = ทางหลวง</p>
+                <p>พื้นสีน้ำเงิน = ทางทั่วไป / บริการ</p>
+                <p>พื้นสีน้ำตาล = สถานที่ท่องเที่ยว</p>
+                <h4>ตัวอย่าง</h4>
+                <p>ป้ายบอกชื่อจังหวัด, ป้ายบอกระยะทาง, ป้ายทางไปโรงพยาบาล, ป้ายสถานีบริการน้ำมัน, ป้ายที่จอดรถ, ป้ายสนามบิน, ป้ายทางด่วน</p>
+                <h4>ภาพตัวอย่าง</h4>
+                <img src="ป้ายเเนะนำ.jpg" alt="ป้ายแนะนำ">
+
+                <h3 class="mt-4">ประเภทที่ 4 : เครื่องหมายบนพื้นทาง (Road Markings)</h3>
+                <p>เป็นเส้นหรือสัญลักษณ์ที่ทาบนพื้นถนน</p>
+                <h4>เส้นแบ่งทิศทาง</h4>
+                <p>เส้นทึบสีขาว = ห้ามเปลี่ยนเลน</p>
+                <p>เส้นประสีขาว = เปลี่ยนเลนได้</p>
+                <p>เส้นทึบคู่สีเหลือง = ห้ามแซง</p>
+                <h4>เส้นหยุด</h4>
+                <p>เส้นขวางก่อนถึงสัญญาณไฟ</p>
+                <h4>ทางม้าลาย</h4>
+                <p>สำหรับคนเดินเท้า</p>
+                <h4>ลูกศรบนพื้นถนน</h4>
+                <p>บอกทิศทางเลี้ยว</p>
+                <h4>เส้นซิกแซกหน้าโรงเรียน</h4>
+                <p>ห้ามจอด</p>
+                <img src="ปเายเเนะนำ2.jpg" alt="เครื่องหมายบนพื้นทาง">
+
+                <h3 class="mt-4">ประเภทที่ 5 : เครื่องหมายไฟจราจร</h3>
+                <p>ไฟสัญญาณควบคุมการจราจร</p>
+                <h4>ไฟ 3 สี</h4>
+                <p>🔴 สีแดง = หยุด</p>
+                <p>🟡 สีเหลือง = เตรียมหยุด</p>
+                <p>🟢 สีเขียว = ไปได้</p>
+                <p>มีทั้งไฟสำหรับ รถยนต์ คนเดินเท้า ทางเลี้ยวเฉพาะ</p>
+
+                <h3 class="mt-4">โทษตามกฎหมาย</h3>
+                <p>การฝ่าฝืนเครื่องหมายจราจร เช่น ฝ่าไฟแดง ไม่หยุดป้าย STOP ขับเกินความเร็ว จอดในที่ห้ามจอด</p>
+                <strong>มีโทษปรับตั้งแต่หลักร้อยถึงหลักพันบาท และอาจถูกตัดคะแนนใบขับขี่ตามระบบใหม่</strong>
+
+                <h3 class="mt-4">หน่วยงานที่รับผิดชอบ</h3>
+                <p>1. กรมทางหลวง – ดูแลถนนสายหลัก</p>
+                <p>2. กรมทางหลวงชนบท – ดูแลถนนชนบท</p>
+                <p>3. สำนักงานตำรวจแห่งชาติ – บังคับใช้กฎหมาย</p>
+
+                <h3 class="mt-4">ความสำคัญของเครื่องหมายจราจร</h3>
+                <p>ลดอุบัติเหตุ, ลดความสับสน, สร้างระเบียบวินัย, เพิ่มความปลอดภัยแก่คนเดินเท้า, ช่วยให้การเดินทางมีประสิทธิภาพ</p>
+
+                <h3 class="mt-4">สรุป</h3>
+                <p>เครื่องหมายจราจรในประเทศไทยถูกกำหนดตามกฎหมายอย่างชัดเจน ผู้ใช้ทางทุกคนมีหน้าที่ต้องปฏิบัติตาม การรู้จักและเข้าใจเครื่องหมายจราจรช่วยลดอุบัติเหตุและเพิ่มความปลอดภัยบนท้องถนน</p>
             </div>
 
-            <div class="d-flex align-items-center mb-4 mt-5 ps-3 border-start border-4 border-primary" data-aos="fade-right">
-                <h4 class="fw-bold m-0 text-dark">แกลเลอรี่ ป้ายจราจร</h4>
-                <small class="text-muted ms-3">(คลิกเพื่อดูความหมาย)</small>
+            <div class="row align-items-end mb-4 mt-5" data-aos="fade-right">
+                <div class="col-md-6">
+                    <h4 class="fw-bold m-0 border-start border-4 border-primary ps-3">แกลเลอรี่ ป้ายจราจร</h4>
+                </div>
+                <div class="col-md-6 mt-3 mt-md-0">
+                    <div class="search-container mb-0">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="search-box" class="search-input" placeholder="ค้นหาชื่อป้ายจราจร..." onkeyup="filterSigns()">
+                    </div>
+                </div>
             </div>
             
             <div class="row g-4" id="sign-grid"></div>
@@ -448,10 +423,10 @@
                         </div>
                     </div>
                     <h2 class="fw-bold">ทดสอบความรู้</h2>
-                    <p class="text-muted mb-4">วัดระดับความรู้ของคุณด้วยแบบทดสอบ 5 ข้อ</p>
+                    <p class="mb-4 text-muted">วัดระดับความรู้ของคุณด้วยแบบทดสอบ 5 ข้อ</p>
                     
                     <div class="form-floating mb-4">
-                        <input type="text" class="form-control rounded-pill px-4" id="player-name" placeholder="ชื่อของคุณ">
+                        <input type="text" class="form-control rounded-pill px-4" id="player-name" placeholder="ชื่อของคุณ" style="background: var(--bg-body); color: var(--text-main); border-color: var(--border-color);">
                         <label for="player-name" class="px-4">กรอกชื่อของคุณ (เช่น มนภวัต)</label>
                     </div>
 
@@ -461,16 +436,20 @@
                 </div>
 
                 <div id="quiz-play" style="display: none;">
+                    <div class="progress mb-4" style="height: 6px; background: var(--border-color);">
+                        <div id="quiz-progress" class="progress-bar rounded-pill" role="progressbar" style="width: 0%; background: var(--primary-color);"></div>
+                    </div>
+
                     <div class="d-flex justify-content-between mb-4 align-items-center">
-                        <span class="badge bg-light text-dark border px-3 py-2 rounded-pill fs-6">ข้อที่ <span id="q-now">1</span>/5</span>
+                        <span class="badge border px-3 py-2 rounded-pill fs-6" style="background: var(--bg-body); color: var(--text-main);">ข้อที่ <span id="q-now">1</span>/5</span>
                         <div class="text-end">
-                            <small class="text-muted d-block" style="font-size:0.7rem">SCORE</small>
-                            <span class="text-primary fw-bold fs-4" id="score">0</span>
+                            <small class="d-block" style="font-size:0.7rem; color: var(--text-muted);">SCORE</small>
+                            <span class="fw-bold fs-4" style="color: var(--primary-color);" id="score">0</span>
                         </div>
                     </div>
                     
-                    <img id="q-img" src="" class="img-fluid mb-4 rounded-4 shadow-sm floating-element border p-3" style="height: 180px; object-fit: contain;">
-                    <h4 class="fw-bold mb-4 text-dark">ป้ายนี้มีความหมายว่า?</h4>
+                    <img id="q-img" src="" class="img-fluid mb-4 rounded-4 shadow-sm floating-element border p-3" style="height: 180px; object-fit: contain; background: white;">
+                    <h4 class="fw-bold mb-4">ป้ายนี้มีความหมายว่า?</h4>
                     
                     <div id="q-choices" class="d-grid gap-3"></div>
                 </div>
@@ -479,19 +458,19 @@
 
         <div id="section-history" class="page-section" style="display: none;">
             <div class="content-card p-0 overflow-hidden border-0 shadow-lg" data-aos="fade-up">
-                <div class="p-4 border-bottom d-flex justify-content-between align-items-center bg-white">
-                    <h5 class="m-0 fw-bold text-dark"><i class="fas fa-list-alt me-2 text-primary"></i>ประวัติคะแนน</h5>
-                    <button class="btn btn-sm btn-light text-danger rounded-pill px-3 border" onclick="clearHistory()">
+                <div class="p-4 border-bottom d-flex justify-content-between align-items-center" style="background: var(--bg-card);">
+                    <h5 class="m-0 fw-bold"><i class="fas fa-list-alt me-2" style="color: var(--primary-color);"></i>ประวัติคะแนน</h5>
+                    <button class="btn btn-sm btn-outline-danger rounded-pill px-3" onclick="clearHistory()">
                         <i class="fas fa-trash-alt me-1"></i> ล้างข้อมูล
                     </button>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-hover mb-0 align-middle">
-                        <thead class="bg-light">
+                    <table class="table table-hover mb-0 align-middle" style="color: var(--text-main);">
+                        <thead style="background: var(--bg-body);">
                             <tr>
-                                <th class="ps-4 py-3 text-secondary">วันที่</th>
-                                <th class="py-3 text-secondary">ชื่อผู้สอบ</th>
-                                <th class="text-end pe-4 py-3 text-secondary">คะแนน</th>
+                                <th class="ps-4 py-3" style="color: var(--text-muted);">วันที่</th>
+                                <th class="py-3" style="color: var(--text-muted);">ชื่อผู้สอบ</th>
+                                <th class="text-end pe-4 py-3" style="color: var(--text-muted);">คะแนน</th>
                             </tr>
                         </thead>
                         <tbody id="history-table"></tbody>
@@ -499,25 +478,64 @@
                 </div>
             </div>
         </div>
-
     </div>
 
+    <div class="modal fade" id="signModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow-lg">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold" id="modalTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center p-4">
+                    <img id="modalImg" src="" class="img-fluid mb-3" style="max-height: 150px;">
+                    <p id="modalDesc" class="text-muted fs-5"></p>
+                </div>
+                <div class="modal-footer border-0 justify-content-center pb-4">
+                    <button type="button" class="btn btn-gradient rounded-pill px-4" data-bs-dismiss="modal">เข้าใจแล้ว</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <script>
         AOS.init({ duration: 800, once: true });
 
+        // Data for Gallery & Quiz (ใช้ชื่อไฟล์รูปของคุณตามเดิม)
         const data = [
             { id: 1, title: "ป้ายหยุด", desc: "รถทุกคันต้องหยุดให้สนิท", img: "หยุด1 (1).jpg", ans: 1, choices: ["ห้ามเข้า", "หยุด", "ชะลอ", "ห้ามจอด"] },
             { id: 2, title: "ห้ามเลี้ยวขวา", desc: "ห้ามเลี้ยวไปทางขวา", img: "ป้ายห้ามเลี้ยวซ้าย ขวา.svg", ans: 2, choices: ["ห้ามซ้าย", "กลับรถ", "ห้ามเลี้ยวขวา", "ทางเอก"] },
             { id: 3, title: "ทางม้าลาย", desc: "ทางข้ามคนเดินเท้า", img: "ทางม้าลาย.png", ans: 0, choices: ["ทางม้าลาย", "โรงเรียน", "ระวังคน", "ทางลื่น"] },
-            { id: 4, title: "จำกัดความเร็ว 60", desc: "ห้ามขับเร็วเกิน 60", img: "60.svg", ans: 2, choices: ["ขับช้า", "น้ำหนักเกิน", "จำกัดความเร็ว", "ระยะห่าง"] },
+            { id: 4, title: "จำกัดความเร็ว 60", desc: "ห้ามขับเร็วเกิน 60 กม./ชม.", img: "60.svg", ans: 2, choices: ["ขับช้า", "น้ำหนักเกิน", "จำกัดความเร็ว", "ระยะห่าง"] },
             { id: 5, title: "วงเวียน", desc: "ให้รถในวงเวียนไปก่อน", img: "วงเวียน_1000x1000.jpg", ans: 0, choices: ["วงเวียน", "กลับรถ", "ห้ามเลี้ยว", "ทางโค้ง"] },
-            { id: 6, title: "ห้ามเข้า", desc: "ห้ามรถทุกชนิดผ่านเข้าไป", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Thailand_road_sign_P-9.svg/600px-Thailand_road_sign_P-9.svg.png", ans: 1, choices: ["ทางตัน", "ห้ามเข้า", "ห้ามจอด", "หยุดตรวจ"] }
+            { id: 6, title: "ห้ามเข้า", desc: "ห้ามรถทุกชนิดผ่านเข้าไป", img: "ห้ามเข้า.jpg", ans: 1, choices: ["ทางตัน", "ห้ามเข้า", "ห้ามจอด", "หยุดตรวจ"] },
+            // เพิ่มป้ายอื่นๆ ใน Gallery ให้ด้วยครับ
+            { id: 7, title: "ป้ายให้ทาง", desc: "ต้องชะลอและให้รถทางเอกไปก่อน", img: "Thailand_road_sign_บ-2-1 (1).svg", ans: 3, choices: ["ทางตัน", "หยุด", "ห้ามเข้า", "ให้ทาง"] },
+            { id: 8, title: "ป้ายห้ามกลับรถ", desc: "ห้ามกลับรถในจุดนั้น", img: "ป้ายห้ามกลับรถ.jpg", ans: 0, choices: ["ห้ามกลับรถ", "ห้ามเลี้ยว", "ทางตัน", "เดินรถทางเดียว"] },
+            { id: 9, title: "ป้ายห้ามจอด", desc: "ห้ามจอดรถทุกชนิด", img: "ป้ายห้ามจอด.svg", ans: 2, choices: ["ห้ามหยุด", "ห้ามเข้า", "ห้ามจอด", "หยุดตรวจ"] }
         ];
 
-        // Typing Effect
+        // --- Dark Mode Logic ---
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                icon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                icon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        if(localStorage.getItem('theme') === 'dark') toggleTheme();
+
+        // --- Typing Effect ---
         const text = "สื่อการสอนเครื่องหมายจราจร";
         let i = 0;
         function type() {
@@ -526,14 +544,12 @@
                 i++;
                 setTimeout(type, 80);
             } else {
-                if(window.innerWidth > 768) { // Only remove cursor on PC
-                     document.getElementById('type-text').style.borderRight = "none";
-                }
+                if(window.innerWidth > 768) document.getElementById('type-text').style.borderRight = "none";
             }
         }
         setTimeout(type, 300);
 
-        // UI Logic
+        // --- Sidebar Logic ---
         function toggleSidebar() {
             const sb = document.getElementById('sidebar');
             const ct = document.getElementById('content');
@@ -548,15 +564,11 @@
         }
 
         function showSection(id, el) {
-            document.querySelectorAll('.page-section').forEach(p => { 
-                p.style.display='none'; 
-                p.classList.remove('active'); 
-            });
+            document.querySelectorAll('.page-section').forEach(p => { p.style.display='none'; p.classList.remove('active'); });
             const target = document.getElementById('section-'+id);
             target.style.display='block';
-            
             setTimeout(() => { target.classList.add('active'); AOS.refresh(); }, 50); 
-
+            
             const titles = {'landing':'หน้าแรก','lessons':'บทเรียน','quiz':'แบบทดสอบ','history':'ประวัติคะแนน'};
             document.getElementById('page-title').innerText = titles[id];
             
@@ -568,29 +580,45 @@
             if(id==='history') loadHistory();
         }
 
-        function renderContent() {
+        // --- Modal & Search Logic (New!) ---
+        const signModal = new bootstrap.Modal(document.getElementById('signModal'));
+        function openSignModal(title, desc, img) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalDesc').innerText = desc;
+            document.getElementById('modalImg').src = img;
+            signModal.show();
+        }
+
+        function filterSigns() {
+            const query = document.getElementById('search-box').value.toLowerCase();
+            const filtered = data.filter(item => item.title.toLowerCase().includes(query));
+            renderContent(filtered);
+        }
+
+        function renderContent(displayData = data) {
             const grid = document.getElementById('sign-grid');
-            grid.innerHTML = data.map((item, idx) => `
-                <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="${idx * 100}">
-                    <div class="sign-card text-center h-100" onclick="alert('${item.title}\\n\\n${item.desc}')">
-                        <div class="floating-element mb-3" style="height:100px; display:flex; align-items:center; justify-content:center;">
-                            <img src="${item.img}" style="max-height:90px; max-width:100%; object-fit:contain;">
+            if(displayData.length === 0) {
+                grid.innerHTML = '<div class="col-12 text-center text-muted">ไม่พบข้อมูลป้ายจราจรที่ค้นหา</div>';
+                return;
+            }
+            grid.innerHTML = displayData.map((item, idx) => `
+                <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="${idx * 50}">
+                    <div class="sign-card text-center h-100" onclick="openSignModal('${item.title}', '${item.desc}', '${item.img}')">
+                        <div class="mb-2 d-flex align-items-center justify-content-center" style="height:120px;">
+                            <img src="${item.img}" style="max-height:100%; width:auto; margin:0;" onerror="this.src='https://via.placeholder.com/150?text=Image+Not+Found'">
                         </div>
-                        <h6 class="fw-bold text-dark mb-1">${item.title}</h6>
-                        <small class="text-primary" style="font-size:0.75rem">แตะเพื่อดูรายละเอียด</small>
+                        <h6 class="fw-bold mb-1" style="color: var(--text-main);">${item.title}</h6>
+                        <small style="color: var(--primary-color); font-size:0.75rem">แตะดูข้อมูล</small>
                     </div>
                 </div>
             `).join('');
         }
 
-        // Quiz Logic
+        // --- Quiz Logic (with Progress) ---
         let qIdx=0, score=0, uName="";
         function startQuiz() {
             uName=document.getElementById('player-name').value;
-            if(!uName) {
-                document.getElementById('player-name').focus();
-                return alert('กรุณาใส่ชื่อก่อนเริ่มสอบครับ');
-            }
+            if(!uName) { document.getElementById('player-name').focus(); return alert('กรุณาใส่ชื่อก่อนเริ่มสอบครับ'); }
             score=0; qIdx=0;
             document.getElementById('quiz-start').style.display='none';
             document.getElementById('quiz-play').style.display='block';
@@ -601,29 +629,36 @@
             document.getElementById('q-now').innerText = qIdx+1;
             document.getElementById('score').innerText = score;
             document.getElementById('q-img').src = d.img;
+            
+            // Progress Bar Update
+            const percent = ((qIdx) / 5) * 100;
+            document.getElementById('quiz-progress').style.width = percent + '%';
+
             let h = "";
             d.choices.forEach((c,i)=> {
-                h += `<button class="btn btn-outline-dark py-3 rounded-3 shadow-sm text-start ps-4 fw-medium" 
-                      onmouseover="this.classList.add('bg-light')" 
-                      onmouseout="this.classList.remove('bg-light')"
+                h += `<button class="btn btn-outline-primary py-3 rounded-3 shadow-sm text-start ps-4 fw-medium w-100" 
+                      style="border-color: var(--border-color); color: var(--text-main); background: var(--bg-card); margin-bottom: 10px;"
+                      onmouseover="this.style.borderColor='var(--primary-color)'; this.style.color='var(--primary-color)';" 
+                      onmouseout="this.style.borderColor='var(--border-color)'; this.style.color='var(--text-main)';"
                       onclick="check(${i})">${c}</button>`;
             });
             document.getElementById('q-choices').innerHTML=h;
         }
         function check(c) {
-            if(c===data[qIdx].ans) {
-                score++;
-            }
-            if(++qIdx < 5) loadQ();
+            if(c===data[qIdx].ans) score++;
+            if(++qIdx < 5) loadQ(); // แก้ให้วนทำแค่ 5 ข้อแรก หรือปรับเลขถ้ายากให้ทำครบทุกข้อ
             else {
+                document.getElementById('quiz-progress').style.width = '100%';
                 confetti({particleCount:150, spread:70, origin:{y:0.6}});
-                alert(`จบการสอบ! คุณ ${uName} ได้ ${score}/5 คะแนน`);
-                saveHistory(uName, score);
-                
-                document.getElementById('quiz-start').style.display='block';
-                document.getElementById('quiz-play').style.display='none';
-                document.getElementById('player-name').value='';
-                showSection('history');
+                setTimeout(() => {
+                    alert(`จบการสอบ! คุณ ${uName} ได้ ${score}/5 คะแนน`);
+                    saveHistory(uName, score);
+                    document.getElementById('quiz-start').style.display='block';
+                    document.getElementById('quiz-play').style.display='none';
+                    document.getElementById('player-name').value='';
+                    document.getElementById('quiz-progress').style.width = '0%';
+                    showSection('history');
+                }, 500);
             }
         }
 
@@ -639,9 +674,9 @@
             if(!h.length) t.innerHTML='<tr><td colspan="3" class="text-center py-5 text-muted">ยังไม่มีประวัติการสอบ</td></tr>';
             else t.innerHTML = h.map(x=>`
                 <tr>
-                    <td class="ps-4 small text-muted">${x.d}</td>
+                    <td class="ps-4 small" style="color:var(--text-muted);">${x.d}</td>
                     <td class="fw-medium">${x.n}</td>
-                    <td class="text-end pe-4 fw-bold text-primary">${x.s}</td>
+                    <td class="text-end pe-4 fw-bold" style="color:var(--primary-color);">${x.s}</td>
                 </tr>`).join('');
         }
         function clearHistory() { localStorage.removeItem('mpw_final'); loadHistory(); }
