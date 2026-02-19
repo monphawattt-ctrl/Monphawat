@@ -20,7 +20,6 @@
 
     <style>
         :root {
-            /* Light Mode Variables */
             --primary-color: #2563eb;
             --primary-light: #eff6ff;
             --sidebar-width: 260px;
@@ -33,7 +32,6 @@
             --shadow: 0 10px 30px -10px rgba(0,0,0,0.06);
         }
 
-        /* --- Dark Mode Configuration --- */
         [data-theme="dark"] {
             --primary-color: #60a5fa;
             --primary-light: #1e293b;
@@ -67,30 +65,46 @@
         #content { margin-left: var(--sidebar-width); transition: all 0.4s; padding: 40px; min-height: 100vh; }
         #content.full-width { margin-left: 0; }
         .content-card { background: var(--bg-card); border-radius: 24px; padding: 40px; box-shadow: var(--shadow); margin-bottom: 30px; border: 1px solid var(--border-color); transition: transform 0.3s; overflow: hidden; }
-        .content-card:hover { transform: translateY(-5px); }
 
+        /* การ์ดแกลเลอรี่ป้าย (ปรับใหม่ให้รองรับการใส่รูป) */
         .sign-card { background: var(--bg-card); border-radius: 16px; padding: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border: 1px solid var(--border-color); transition: all 0.3s; cursor: pointer; height: 100%; position: relative; }
         .sign-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); border-color: var(--primary-color); }
-        .sign-card img { width: 100%; height: 120px; object-fit: contain; margin-bottom: 15px; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1)); }
         
-        .lesson-content img { max-width: 100%; max-height: 200px; width: auto; height: auto; object-fit: contain; display: block; margin: 20px 0; border-radius: 10px; border: 1px solid var(--border-color); }
-
-        /* กรอบสำหรับรูปภาพที่ยังไม่ได้ใส่ */
-        .border-dashed {
-            border: 2px dashed var(--primary-color) !important;
-            background-color: var(--primary-light) !important;
+        /* สไตล์สำหรับบล็อกรอใส่รูป */
+        .img-block-wrapper {
+            height: 120px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            background: transparent; /* พื้นหลังโปร่งใส */
             border-radius: 12px;
-            padding: 20px;
-            color: var(--text-main);
+            border: none; /* เอาเส้นปะออก */
+            position: relative;
+            overflow: hidden;
         }
 
-        /* ปรับสีตารางใน Dark Mode */
+        /* จำกัดขนาดรูปในหน้าบทเรียนไม่ให้ใหญ่เกินไป */
+.lesson-content img { 
+    max-width: 600px; /* จำกัดความกว้างไม่ให้เกิน 600px */
+    max-height: 550px; /* จำกัดความสูงไม่ให้ล้นจอ */
+    width: 100%; /* ให้ย่อตามอัตโนมัติถ้าเปิดในมือถือ */
+    object-fit: contain; /* รักษาอัตราส่วนรูปไม่ให้เบี้ยว */
+    display: block; 
+    margin: 30px auto; 
+    border-radius: 12px; 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
+    border: 3px solid var(--border-color); 
+    background-color: var(--bg-card); /* ใส่พื้นหลังเผื่อรูปโปร่งใส */
+}
+
+        .border-dashed { border: 2px dashed var(--primary-color) !important; background-color: var(--primary-light) !important; border-radius: 12px; padding: 20px; color: var(--text-main); }
         [data-theme="dark"] .table { color: var(--text-main); }
         [data-theme="dark"] .table-light { background-color: rgba(255,255,255,0.1); color: var(--text-main); }
 
         .btn-gradient { background: linear-gradient(135deg, var(--primary-color), #4f46e5); border: none; color: white; transition: 0.3s; }
         .btn-gradient:hover { opacity: 0.9; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3); color: white; }
-        
         .theme-switch { cursor: pointer; padding: 10px; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; transition: 0.3s; background: var(--primary-light); color: var(--primary-color); border: none; }
         
         .search-container { position: relative; margin-bottom: 30px; }
@@ -107,22 +121,8 @@
         .btn-close { filter: invert(var(--invert-val)); }
         [data-theme="dark"] { --invert-val: 1; }
 
-        /* --- สไตล์สำหรับ Toast แจ้งเตือนมุมขวาบน --- */
-        .custom-toast {
-            background-color: #222222 !important;
-            color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            border: 1px solid #333;
-        }
-        .toast-progress {
-            height: 4px;
-            width: 100%;
-            background-color: #74b868;
-            border-bottom-left-radius: 10px;
-            border-bottom-right-radius: 10px;
-            transition: width 3s linear;
-        }
+        .custom-toast { background-color: #222222 !important; color: #ffffff; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); border: 1px solid #333; }
+        .toast-progress { height: 4px; width: 100%; background-color: #74b868; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; transition: width 3s linear; }
 
         @media (max-width: 768px) {
             #sidebar { margin-left: calc(var(--sidebar-width) * -1); }
@@ -196,9 +196,7 @@
                         <i class="fas fa-car-side fa-4x"></i>
                     </span>
                 </div>
-                <h1 class="fw-bold mb-3 display-5">
-                    <span id="type-text" class="typing-wrapper"></span>
-                </h1>
+                <h1 class="fw-bold mb-3 display-5"><span id="type-text" class="typing-wrapper"></span></h1>
                 <p class="mb-5 mx-auto" style="max-width: 600px; color: var(--text-muted);">
                     เรียนรู้กฎจราจรและสัญลักษณ์จราจรต่างๆ อย่างถูกต้องและเข้าใจง่าย <br class="d-none d-md-block">
                     เพื่อความปลอดภัยสูงสุดบนท้องถนนของคุณ
@@ -210,25 +208,13 @@
 
             <div class="row g-4 mt-2">
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="sign-card text-center h-100 border-0 shadow-sm">
-                        <div class="mb-3 text-success floating-element"><i class="fas fa-check-circle fa-3x"></i></div>
-                        <h5 class="fw-bold">ข้อมูลถูกต้อง</h5>
-                        <p class="small mb-0 text-muted">เนื้อหาอ้างอิงจากกฎหมายจราจรทางบก</p>
-                    </div>
+                    <div class="sign-card text-center h-100 border-0 shadow-sm"><div class="mb-3 text-success floating-element"><i class="fas fa-check-circle fa-3x"></i></div><h5 class="fw-bold">ข้อมูลถูกต้อง</h5><p class="small mb-0 text-muted">เนื้อหาอ้างอิงจากกฎหมายจราจรทางบก</p></div>
                 </div>
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="sign-card text-center h-100 border-0 shadow-sm">
-                        <div class="mb-3 text-warning floating-element"><i class="fas fa-mobile-alt fa-3x"></i></div>
-                        <h5 class="fw-bold">รองรับมือถือ</h5>
-                        <p class="small mb-0 text-muted">เรียนรู้ได้ทุกที่ ทุกเวลา บนทุกอุปกรณ์</p>
-                    </div>
+                    <div class="sign-card text-center h-100 border-0 shadow-sm"><div class="mb-3 text-warning floating-element"><i class="fas fa-mobile-alt fa-3x"></i></div><h5 class="fw-bold">รองรับมือถือ</h5><p class="small mb-0 text-muted">เรียนรู้ได้ทุกที่ ทุกเวลา บนทุกอุปกรณ์</p></div>
                 </div>
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-                    <div class="sign-card text-center h-100 border-0 shadow-sm">
-                        <div class="mb-3 text-primary floating-element"><i class="fas fa-star fa-3x"></i></div>
-                        <h5 class="fw-bold">เข้าใจง่าย</h5>
-                        <p class="small mb-0 text-muted">อธิบายด้วยภาพประกอบที่ชัดเจน</p>
-                    </div>
+                    <div class="sign-card text-center h-100 border-0 shadow-sm"><div class="mb-3 text-primary floating-element"><i class="fas fa-star fa-3x"></i></div><h5 class="fw-bold">เข้าใจง่าย</h5><p class="small mb-0 text-muted">อธิบายด้วยภาพประกอบที่ชัดเจน</p></div>
                 </div>
             </div>
         </div>
@@ -264,11 +250,8 @@
                     <li><strong>ความสำคัญ:</strong> ควบคุมพฤติกรรมผู้ขับขี่ ลดอุบัติเหตุ ทำให้การจราจรเป็นระเบียบ</li>
                     <li><strong>ตัวอย่าง:</strong> ห้ามเลี้ยวซ้าย, ห้ามกลับรถ, จำกัดความเร็ว, ห้ามแซง, หยุด (STOP – รูปแปดเหลี่ยมสีแดง), ให้ทาง</li>
                 </ul>
-                <div class="text-center border-dashed mb-4">
-                    <i class="fas fa-image fa-2x text-muted mb-2"></i><br>
-                    <strong>[ 🖼️ ตำแหน่งใส่รูป: ตัวอย่างป้ายบังคับ เช่น ป้ายหยุด, ป้ายห้ามเข้า ]</strong><br>
-                    <code class="text-muted">&lt;img src="ชื่อรูป.jpg" alt="ป้ายบังคับ"&gt;</code>
-                </div>
+                
+                <img src="ป้ายบังคับสีเเดง.jpg" alt="">
 
                 <h5 class="mt-5 fw-bold text-warning" style="text-shadow: 0 0 1px #000;">⚠ 2.2 เครื่องหมายจราจรประเภทเตือน (Warning Signs)</h5>
                 <p>เป็นเครื่องหมายที่ <strong>เตือนให้ผู้ขับขี่ระวังอันตรายข้างหน้า</strong></p>
@@ -277,11 +260,8 @@
                     <li><strong>ความสำคัญ:</strong> เตรียมความพร้อมก่อนเจอสถานการณ์เสี่ยง ช่วยลดความเร็ว ป้องกันอุบัติเหตุในพื้นที่อันตราย</li>
                     <li><strong>ตัวอย่าง:</strong> ทางโค้งอันตราย, ทางแยกข้างหน้า, ทางรถไฟตัดผ่าน, ทางลาดชัน, เขตโรงเรียน</li>
                 </ul>
-                <div class="text-center border-dashed mb-4">
-                    <i class="fas fa-image fa-2x text-muted mb-2"></i><br>
-                    <strong>[ 🖼️ ตำแหน่งใส่รูป: ตัวอย่างป้ายเตือน เช่น ทางโค้ง, โรงเรียนระวังเด็ก ]</strong><br>
-                    <code class="text-muted">&lt;img src="ชื่อรูป.jpg" alt="ป้ายเตือน"&gt;</code>
-                </div>
+                <img src="ป้ายบังคับสีเหลือง.jpg" alt="">
+                <img src="ป้ายบังคับสีเหลือง2.jpg" alt="">
 
                 <h5 class="mt-5 fw-bold text-primary">🔵 2.3 เครื่องหมายจราจรประเภทแนะนำ (Guide Signs)</h5>
                 <p>ให้ข้อมูลและคำแนะนำแก่ผู้ใช้ทาง</p>
@@ -290,12 +270,7 @@
                     <li><strong>ความสำคัญ:</strong> ช่วยให้เดินทางถูกเส้นทาง ลดความสับสน สนับสนุนการท่องเที่ยวและเศรษฐกิจ</li>
                     <li><strong>ตัวอย่าง:</strong> ป้ายบอกทางไปจังหวัดต่าง ๆ, ป้ายชื่อถนน, ป้ายบอกระยะทาง, ป้ายแนะนำสถานที่สำคัญ เช่น โรงพยาบาล ปั๊มน้ำมัน</li>
                 </ul>
-                <div class="text-center border-dashed mb-4">
-                    <i class="fas fa-image fa-2x text-muted mb-2"></i><br>
-                    <strong>[ 🖼️ ตำแหน่งใส่รูป: ตัวอย่างป้ายแนะนำ เช่น ป้ายบอกทางไปจังหวัด, ป้ายโรงพยาบาล ]</strong><br>
-                    <code class="text-muted">&lt;img src="ชื่อรูป.jpg" alt="ป้ายแนะนำ"&gt;</code>
-                </div>
-
+                <img src="ป้ายเเนะนำสีฟ้า.jpg" alt="">
                 <hr class="my-5" style="border-color: var(--border-color);">
 
                 <div class="row mt-4">
@@ -303,9 +278,7 @@
                         <h4 class="fw-bold" style="color: var(--primary-color);"><i class="fas fa-palette me-2"></i>3. ความหมายของ “สี”</h4>
                         <div class="table-responsive">
                             <table class="table table-bordered text-center align-middle mt-3 bg-white">
-                                <thead class="table-light">
-                                    <tr><th>สี</th><th>ความหมาย</th></tr>
-                                </thead>
+                                <thead class="table-light"><tr><th>สี</th><th>ความหมาย</th></tr></thead>
                                 <tbody>
                                     <tr><td>🔴 สีแดง</td><td>ห้าม / อันตราย / ต้องหยุด</td></tr>
                                     <tr><td>🟡 สีเหลือง</td><td>เตือนให้ระวัง</td></tr>
@@ -321,9 +294,7 @@
                         <h4 class="fw-bold" style="color: var(--primary-color);"><i class="fas fa-shapes me-2"></i>4. ความหมายของ “รูปทรง”</h4>
                         <div class="table-responsive">
                             <table class="table table-bordered text-center align-middle mt-3 bg-white">
-                                <thead class="table-light">
-                                    <tr><th>รูปทรง</th><th>ความหมาย</th></tr>
-                                </thead>
+                                <thead class="table-light"><tr><th>รูปทรง</th><th>ความหมาย</th></tr></thead>
                                 <tbody>
                                     <tr><td>🔺 สามเหลี่ยม</td><td>เตือน</td></tr>
                                     <tr><td>🔵 วงกลม</td><td>บังคับ</td></tr>
@@ -340,30 +311,10 @@
 
                 <h4 class="fw-bold" style="color: var(--primary-color);"><i class="fas fa-car me-2"></i>5. ความสำคัญของเครื่องหมายจราจร (เชิงลึก)</h4>
                 <div class="row g-3 mt-2">
-                    <div class="col-sm-6">
-                        <div class="p-3 border rounded-3" style="background: var(--bg-body);">
-                            <strong class="text-success"><i class="fas fa-shield-alt me-2"></i>5.1 ด้านความปลอดภัย</strong>
-                            <p class="mb-0 small mt-2">ลดจำนวนอุบัติเหตุ ลดการเสียชีวิตและบาดเจ็บ และช่วยควบคุมความเร็ว</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="p-3 border rounded-3" style="background: var(--bg-body);">
-                            <strong class="text-danger"><i class="fas fa-gavel me-2"></i>5.2 ด้านกฎหมาย</strong>
-                            <p class="mb-0 small mt-2">เป็นหลักฐานในการบังคับใช้กฎหมาย ผู้ฝ่าฝืนมีโทษปรับตามกฎหมาย ใช้ประกอบคดีอุบัติเหตุ</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="p-3 border rounded-3" style="background: var(--bg-body);">
-                            <strong class="text-primary"><i class="fas fa-users me-2"></i>5.3 ด้านสังคม</strong>
-                            <p class="mb-0 small mt-2">สร้างวินัยจราจร ปลูกฝังความรับผิดชอบ ส่งเสริมวัฒนธรรมความปลอดภัย</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="p-3 border rounded-3" style="background: var(--bg-body);">
-                            <strong class="text-warning text-dark"><i class="fas fa-chart-line me-2"></i>5.4 ด้านเศรษฐกิจ</strong>
-                            <p class="mb-0 small mt-2">ลดความเสียหายจากอุบัติเหตุ ลดค่าใช้จ่ายด้านสาธารณสุข ทำให้การขนส่งมีประสิทธิภาพ</p>
-                        </div>
-                    </div>
+                    <div class="col-sm-6"><div class="p-3 border rounded-3" style="background: var(--bg-body);"><strong class="text-success"><i class="fas fa-shield-alt me-2"></i>5.1 ด้านความปลอดภัย</strong><p class="mb-0 small mt-2">ลดจำนวนอุบัติเหตุ ลดการเสียชีวิตและบาดเจ็บ และช่วยควบคุมความเร็ว</p></div></div>
+                    <div class="col-sm-6"><div class="p-3 border rounded-3" style="background: var(--bg-body);"><strong class="text-danger"><i class="fas fa-gavel me-2"></i>5.2 ด้านกฎหมาย</strong><p class="mb-0 small mt-2">เป็นหลักฐานในการบังคับใช้กฎหมาย ผู้ฝ่าฝืนมีโทษปรับตามกฎหมาย ใช้ประกอบคดีอุบัติเหตุ</p></div></div>
+                    <div class="col-sm-6"><div class="p-3 border rounded-3" style="background: var(--bg-body);"><strong class="text-primary"><i class="fas fa-users me-2"></i>5.3 ด้านสังคม</strong><p class="mb-0 small mt-2">สร้างวินัยจราจร ปลูกฝังความรับผิดชอบ ส่งเสริมวัฒนธรรมความปลอดภัย</p></div></div>
+                    <div class="col-sm-6"><div class="p-3 border rounded-3" style="background: var(--bg-body);"><strong class="text-warning text-dark"><i class="fas fa-chart-line me-2"></i>5.4 ด้านเศรษฐกิจ</strong><p class="mb-0 small mt-2">ลดความเสียหายจากอุบัติเหตุ ลดค่าใช้จ่ายด้านสาธารณสุข ทำให้การขนส่งมีประสิทธิภาพ</p></div></div>
                 </div>
 
                 <h4 class="fw-bold mt-5" style="color: var(--primary-color);"><i class="fas fa-laptop-code me-2"></i>6. ความสำคัญในการเรียนการสอน</h4>
@@ -390,12 +341,12 @@
                         เครื่องหมายจราจร คือ ระบบสื่อสารบนท้องถนนที่ช่วยควบคุม เตือน และแนะนำผู้ใช้ทาง เพื่อให้การจราจรปลอดภัย เป็นระเบียบ และมีประสิทธิภาพ มีความสำคัญทั้งด้านความปลอดภัย กฎหมาย สังคม และเศรษฐกิจ
                     </div>
                 </div>
-
             </div>
 
             <div class="row align-items-end mb-4 mt-5" data-aos="fade-right">
                 <div class="col-md-6">
                     <h4 class="fw-bold m-0 border-start border-4 border-primary ps-3">แกลเลอรี่ ป้ายจราจร</h4>
+                    <p class="text-muted small mt-2">รวบรวมความหมายป้ายจราจรกว่า 100 แบบ (รอใส่รูปภาพประกอบ)</p>
                 </div>
                 <div class="col-md-6 mt-3 mt-md-0">
                     <div class="search-container mb-0">
@@ -417,7 +368,7 @@
                         </div>
                     </div>
                     <h2 class="fw-bold">ทดสอบความรู้</h2>
-                    <p class="mb-4 text-muted">เข้าสู่ระบบด้านซ้ายมือ เพื่อเริ่มทำแบบทดสอบ 5 ข้อ</p>
+                    <p class="mb-4 text-muted">เข้าสู่ระบบด้านซ้ายมือ เพื่อเริ่มทำแบบทดสอบ 10 ข้อ</p>
                     
                     <div class="form-floating mb-4">
                         <input type="text" class="form-control rounded-pill px-4 bg-light text-muted" id="player-name" placeholder="ชื่อของคุณ" style="border-color: var(--border-color);" disabled>
@@ -430,20 +381,26 @@
                 </div>
 
                 <div id="quiz-play" style="display: none;">
-                    <div class="progress mb-4" style="height: 6px; background: var(--border-color);">
+                    <div class="mb-4 mx-auto rounded-4 shadow-sm border d-flex align-items-center justify-content-center floating-element" style="height: 180px; width: 180px; background: transparent; overflow: hidden; position: relative;">
                         <div id="quiz-progress" class="progress-bar rounded-pill" role="progressbar" style="width: 0%; background: var(--primary-color);"></div>
                     </div>
 
                     <div class="d-flex justify-content-between mb-4 align-items-center">
-                        <span class="badge border px-3 py-2 rounded-pill fs-6" style="background: var(--bg-body); color: var(--text-main);">ข้อที่ <span id="q-now">1</span>/5</span>
+                        <span class="badge border px-3 py-2 rounded-pill fs-6" style="background: var(--bg-body); color: var(--text-main);">ข้อที่ <span id="q-now">1</span>/10</span>
                         <div class="text-end">
                             <small class="d-block" style="font-size:0.7rem; color: var(--text-muted);">SCORE</small>
                             <span class="fw-bold fs-4" style="color: var(--primary-color);" id="score">0</span>
                         </div>
                     </div>
                     
-                    <img id="q-img" src="" class="img-fluid mb-4 rounded-4 shadow-sm floating-element border p-3" style="height: 180px; object-fit: contain; background: white;">
-                    <h4 class="fw-bold mb-4">ป้ายนี้มีความหมายว่า?</h4>
+                    <div class="mb-4 mx-auto rounded-4 shadow-sm border d-flex align-items-center justify-content-center floating-element" style="height: 180px; width: 180px; background: var(--primary-light); border: 2px dashed var(--primary-color); overflow: hidden; position: relative;">
+                        <img id="q-img" src="" style="max-height: 100%; width: auto; z-index: 2; position: relative;" onerror="this.style.display='none'; document.getElementById('q-placeholder').style.display='flex';">
+                        <div id="q-placeholder" style="display:none; flex-direction: column; color: var(--primary-color); font-size: 0.9rem; position: absolute;">
+                            <i class="fas fa-image fa-3x mb-2"></i>รอใส่รูป
+                        </div>
+                    </div>
+
+                    <h4 class="fw-bold mb-4" id="q-title">ความหมายของป้ายนี้คือ?</h4>
                     <div id="q-choices" class="d-grid gap-3"></div>
                 </div>
             </div>
@@ -478,8 +435,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center p-4">
-                    <img id="modalImg" src="" class="img-fluid mb-3" style="max-height: 150px;">
-                    <p id="modalDesc" class="text-muted fs-5"></p>
+                    <div class="mb-3 mx-auto d-flex align-items-center justify-content-center flex-column" style="height: 150px; width: 150px; background: var(--primary-light); border: 2px dashed var(--primary-color); border-radius: 12px; overflow: hidden; position: relative;">
+                        <img id="modalImg" src="" style="max-height: 100%; width: auto; z-index: 2; position: relative;" onerror="this.style.display='none'; document.getElementById('modalPlaceholder').style.display='flex';">
+                        <div id="modalPlaceholder" style="display:none; flex-direction: column; color: var(--primary-color); font-size: 0.9rem; position: absolute;">
+                            <i class="fas fa-image fa-3x mb-2"></i>รอใส่รูป
+                        </div>
+                    </div>
+                    <p id="modalDesc" class="text-muted fs-6"></p>
                 </div>
                 <div class="modal-footer border-0 justify-content-center pb-4">
                     <button type="button" class="btn btn-gradient rounded-pill px-4" data-bs-dismiss="modal">เข้าใจแล้ว</button>
@@ -516,7 +478,7 @@
         <div id="liveToast" class="toast custom-toast border-0" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-body d-flex align-items-center py-3 fs-6">
                 <i id="toast-icon" class="fas fa-check-circle fs-3 me-3" style="color: #74b868;"></i>
-                <strong id="toast-message" class="fw-medium">สมัครสมาชิกสำเร็จแล้ว</strong>
+                <strong id="toast-message" class="fw-medium">ดำเนินการสำเร็จ</strong>
                 <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div id="toast-progress" class="toast-progress"></div>
@@ -530,7 +492,6 @@
     <script>
         AOS.init({ duration: 800, once: true });
 
-        // --- FIREBASE SETUP ---
         const firebaseConfig = {
             apiKey: "AIzaSyAl3U2fiIxhdlwzcJW3qlG0HlK-EqdZptw",
             authDomain: "traffic-ed-project1.firebaseapp.com",
@@ -543,7 +504,6 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // --- ระบบแจ้งเตือน TOAST ---
         function showToast(message, isSuccess = true) {
             const toastEl = document.getElementById('liveToast');
             const toastMessage = document.getElementById('toast-message');
@@ -551,7 +511,6 @@
             const toastProgress = document.getElementById('toast-progress');
             
             toastMessage.innerText = message;
-            
             if (isSuccess) {
                 toastIcon.className = 'fas fa-check-circle fs-3 me-3';
                 toastIcon.style.color = '#74b868'; 
@@ -561,21 +520,16 @@
                 toastIcon.style.color = '#ff6b6b'; 
                 toastProgress.style.backgroundColor = '#ff6b6b';
             }
-
             const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
-            
             toastProgress.style.transition = 'none';
             toastProgress.style.width = '100%';
-            
             toast.show();
-            
             setTimeout(() => {
                 toastProgress.style.transition = 'width 3s linear';
                 toastProgress.style.width = '0%';
             }, 10);
         }
 
-        // --- AUTHENTICATION ---
         let authModalElement; 
         let isLoginMode = true;
         let loggedInUser = null;
@@ -640,17 +594,131 @@
             auth.signOut().then(() => showToast('ออกจากระบบเรียบร้อยแล้ว', true)); 
         }
 
-        // --- DATA & UI ---
-        const data = [
-            { id: 1, title: "ป้ายหยุด", desc: "รถทุกคันต้องหยุดให้สนิท", img: "หยุด1 (1).jpg", ans: 1, choices: ["ห้ามเข้า", "หยุด", "ชะลอ", "ห้ามจอด"] },
-            { id: 2, title: "ห้ามเลี้ยวขวา", desc: "ห้ามเลี้ยวไปทางขวา", img: "ป้ายห้ามเลี้ยวซ้าย ขวา.svg", ans: 2, choices: ["ห้ามซ้าย", "กลับรถ", "ห้ามเลี้ยวขวา", "ทางเอก"] },
-            { id: 3, title: "ทางม้าลาย", desc: "ทางข้ามคนเดินเท้า", img: "ทางม้าลาย.png", ans: 0, choices: ["ทางม้าลาย", "โรงเรียน", "ระวังคน", "ทางลื่น"] },
-            { id: 4, title: "จำกัดความเร็ว 60", desc: "ห้ามขับเร็วเกิน 60 กม./ชม.", img: "60.svg", ans: 2, choices: ["ขับช้า", "น้ำหนักเกิน", "จำกัดความเร็ว", "ระยะห่าง"] },
-            { id: 5, title: "วงเวียน", desc: "ให้รถในวงเวียนไปก่อน", img: "วงเวียน_1000x1000.jpg", ans: 0, choices: ["วงเวียน", "กลับรถ", "ห้ามเลี้ยว", "ทางโค้ง"] },
-            { id: 6, title: "ห้ามเข้า", desc: "ห้ามรถทุกชนิดผ่านเข้าไป", img: "ห้ามเข้า.jpg", ans: 1, choices: ["ทางตัน", "ห้ามเข้า", "ห้ามจอด", "หยุดตรวจ"] },
-            { id: 7, title: "ป้ายให้ทาง", desc: "ต้องชะลอและให้รถทางเอกไปก่อน", img: "Thailand_road_sign_บ-2-1 (1).svg", ans: 3, choices: ["ทางตัน", "หยุด", "ห้ามเข้า", "ให้ทาง"] },
-            { id: 8, title: "ป้ายห้ามกลับรถ", desc: "ห้ามกลับรถในจุดนั้น", img: "ป้ายห้ามกลับรถ.jpg", ans: 0, choices: ["ห้ามกลับรถ", "ห้ามเลี้ยว", "ทางตัน", "เดินรถทางเดียว"] },
-            { id: 9, title: "ป้ายห้ามจอด", desc: "ห้ามจอดรถทุกชนิด", img: "ป้ายห้ามจอด.svg", ans: 2, choices: ["ห้ามหยุด", "ห้ามเข้า", "ห้ามจอด", "หยุดตรวจ"] }
+        // --- ฐานข้อมูลป้ายจราจรทั้งหมดที่คุณให้มา (พร้อมบล็อกสำหรับใส่รูปภาพ) ---
+        const signsData = [
+            { title: "ป้ายหยุด", desc: "รถทุกชนิดต้องหยุด เมื่อเห็นว่าปลอดภัยแล้วจึงให้เคลื่อนรถต่อไปได้ด้วยความระมัดระวัง", img: "หยุด2.jpg" },
+            { title: "ป้ายให้ทาง", desc: "ผู้ขับขี่ต้องระมัดระวังและให้ทางแก่รถและคนเดินเท้าที่มาจากทิศทางอื่นก่อน เมื่อเห็นว่าปลอดภัยแล้วจึงให้เคลื่อนรถต่อไปได้ด้วยความระมัดระวัง", img: "Thailand_road_sign_บ-2-1 (1).svg" },
+            { title: "ป้ายให้รถสวนทางมาก่อน", desc: "ผู้ขับขี่ที่เห็นป้ายนี้จะต้องให้ทางแก่รถที่สวนมาจากอีกทางหนึ่งก่อน จนกระทั่งรถยนต์ที่สวนทางมาผ่านไปหมด จึงสามารถขับขี่ต่อไปได้", img: "ป้ายให้รถสวนทางมาก่อน.png" },
+            { title: "ป้ายวงเวียน", desc: "ผู้ขับขี่ต้องขับรถวนในวงเวียนตามทิศทางที่กำหนดและให้ทางแก่รถที่อยู่ในวงเวียนไปก่อน", img: "วงเวียน_1000x1000.jpg" },
+            { title: "ป้ายหยุดตรวจ", desc: "รถทุกชนิดต้องหยุดเพื่อให้เจ้าหน้าที่ตรวจสอบตามกฎหมายในเขตที่ติดตั้งป้าย", img: "หยุดตรวจ.jpg" },
+            { title: "ป้ายสุดเขตบังคับ", desc: "ผู้ขับขี่ไม่ต้องปฏิบัติตามป้ายบังคับเมื่อเลยจุดที่ติดตั้งป้ายนี้ เนื่องจากพ้นเขตบังคับก่อนหน้านี้แล้ว", img: "ป้ายสุดเขตบังคับ.svg" },
+            { title: "ป้ายห้ามเลี้ยวซ้าย", desc: "ห้ามรถทุกประเภทเลี้ยวรถไปทางซ้าย", img: "ห้ามเลี้ยวซ้าย.jpg" },
+            { title: "ป้ายห้ามเลี้ยวขวา", desc: "ห้ามรถทุกประเภทเลี้ยวรถไปทางขวา", img: "ป้ายห้ามเลี้ยวซ้าย ขวา.svg" },
+            { title: "ป้ายห้ามกลับรถทางซ้าย", desc: "ห้ามรถทุกชนิดเปลี่ยนช่องเดินรถไปทางซ้ายในเขตที่ติดตั้งป้าย", img: "ป้ายห้ามกลับรถทางซ้าย.webp" },
+            { title: "ป้ายห้ามกลับรถทางขวา", desc: "ห้ามรถทุกชนิดเปลี่ยนช่องเดินรถไปทางขวาในเขตที่ติดตั้งป้าย", img: "ห้ามกลับรถทางขวา.jpg" },
+            { title: "ป้ายห้ามแซง", desc: "ห้ามแซงรถคันอื่นในเขตที่ติดตั้งป้าย", img: "ป้ายห้ามแซง.png" },
+            { title: "ป้ายห้ามจอดรถ", desc: "ห้ามจอดรถทุกชนิดในบริเวณที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายห้ามหยุดรถ", desc: "ห้ามหยุดหรือจอดรถทุกชนิดในบริเวณที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายห้ามเข้า", desc: "ห้ามรถทุกชนิดเข้าบริเวณที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายห้ามรถยนต์ทุกชนิด", desc: "ห้ามรถยนต์ทุกชนิดผ่านเข้าไปในเขตที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายห้ามรถบรรทุก", desc: "ห้ามรถบรรทุกทุกชนิดผ่านเข้าไปในเขตที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายห้ามรถจักรยานยนต์", desc: "ห้ามรถจักรยานยนต์ผ่านเข้าไปในเขตที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายห้ามรถจักรยาน", desc: "ห้ามรถจักรยานผ่านเข้าไปในเขตที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายห้ามรถยนต์สามล้อ", desc: "ห้ามรถยนต์สามล้อผ่านเข้าไปในเขตที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายห้ามรถสามล้อ", desc: "ห้ามรถสามล้อทุกชนิด (เช่น รถสามล้อถีบ) ผ่านเข้าไปในเขตที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายห้ามรถเข็น", desc: "ห้ามรถเข็น (เช่น รถเข็นของพ่อค้าแม่ค้า) ผ่านเข้าไปในเขตที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายห้ามคนเข้า", desc: "ห้ามคนเดินเท้าผ่านเข้าไปในเขตที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายห้ามรถที่ใช้ในการเกษตร", desc: "ห้ามรถทางการเกษตรผ่านเข้าไปในเขตที่ติดตั้งป้าย เช่น รถไถนา", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายห้ามรถยนต์และจักรยานยนต์", desc: "ห้ามรถยนต์และรถจักรยานยนต์ผ่านเข้าไปในเขตที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายห้ามจักรยาน รถสามล้อ และรถจักรยานยนต์", desc: "ห้ามรถจักรยาน รถสามล้อ และรถจักรยานยนต์ผ่านเข้าไปในเขตที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายจำกัดความกว้าง 3.0 เมตร", desc: "ห้ามรถที่มีความกว้างเกิน 3.0 เมตรผ่านเข้าไปในเขตที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายจำกัดความสูง 2.5 เมตร", desc: "ห้ามรถที่มีความสูงเกิน 2.5 เมตรผ่านเข้าไปในเขตที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายจำกัดน้ำหนัก 10 ตัน", desc: "ห้ามรถที่มีน้ำหนักเกิน 10 ตันผ่านเข้าไปในเขตที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายจำกัดความยาว 10 เมตร", desc: "ห้ามรถที่มีความยาวเกิน 10 เมตรผ่านเข้าไปในเขตที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายห้ามใช้เสียง", desc: "ห้ามรถทุกชนิดใช้แตรหรือส่งเสียงดังในเขตที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายให้เลี้ยวซ้าย", desc: "บังคับให้รถทุกประเภทเลี้ยวซ้ายได้แค่ทางเดียวเท่านั้น", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายให้เลี้ยวขวา", desc: "บังคับให้รถทุกประเภทเลี้ยวขวาได้แค่ทางเดียวเท่านั้น", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายให้เลี้ยวซ้ายหรือเลี้ยวขวา", desc: "ผู้ขับขี่ต้องเลี้ยวรถไปทางซ้ายหรือขวาเท่านั้น ไม่สามารถตรงไปได้ในเขตที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายให้ชิดซ้าย", desc: "ผู้ขับขี่ต้องขับรถชิดด้านซ้ายของถนนในเขตที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายให้ชิดขวา", desc: "ผู้ขับขี่ต้องขับรถชิดด้านขวาของถนนในเขตที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายให้ไปทางซ้ายหรือทางขวา", desc: "ผู้ขับขี่ต้องเลือกไปทางซ้ายหรือทางขวาเท่านั้น ไม่สามารถไปตรงได้ในเขตที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายเดินรถทางเดียวไปข้างหน้า", desc: "ผู้ขับขี่ต้องขับรถไปข้างหน้าตามทิศทางที่กำหนด หรือสามารถเดินรถได้แค่ทางเดียว", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายเดินรถทางเดียวไปทางซ้าย", desc: "ผู้ขับขี่ต้องขับรถไปทางซ้ายทางเดียวเท่านั้นในเขตที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายเดินรถทางเดียวไปทางขวา", desc: "ผู้ขับขี่ต้องขับรถไปทางขวาทางเดียวเท่านั้นในเขตที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายจำกัดความเร็ว 50 Km/hr", desc: "ผู้ขับขี่ต้องขับรถด้วยความเร็วไม่เกิน 50 กิโลเมตรต่อชั่วโมงในเขตที่ติดตั้งป้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายให้เดินรถทางเดียว", desc: "เป็นทางเดินรถทางเดียว ห้ามผู้ขับขี่ขับรถสวนทางกัน", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายให้เลี้ยวซ้ายหรือตรงไป", desc: "อนุญาตให้ผู้ขับขี่เลี้ยวซ้ายหรือตรงไปได้เท่านั้น", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายให้ตรงไปหรือเลี้ยวขวา", desc: "อนุญาตให้ผู้ขับขี่ตรงไปหรือเลี้ยวขวาได้เท่านั้น", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายช่องทางเดินรถประจำทาง", desc: "ช่องเดินรถสำหรับรถประจำทางเท่านั้น", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายช่องทางเดินรถจักรยานยนต์", desc: "ช่องเดินรถสำหรับรถจักรยานยนต์เท่านั้น", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายช่องทางเดินรถจักรยาน", desc: "ช่องเดินรถสำหรับรถจักรยานเท่านั้น", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายเฉพาะคนเดิน", desc: "ทางที่สงวนไว้สำหรับคนเดินเท้าเท่านั้น", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายความเร็วขั้นต่ำ", desc: "ระบุความเร็วขั้นต่ำที่ยานพาหนะต้องรักษาไว้ในพื้นที่นั้น เพื่อให้การจราจรไหลลื่น", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายช่องทางรถมวลชน", desc: "ช่องทางที่สงวนไว้สำหรับรถโดยสารสาธารณะ เช่น รถประจำทางหรือรถมวลชนอื่นๆ", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางโค้งซ้าย", desc: "เตือนว่ามีทางโค้งไปทางซ้ายข้างหน้า ผู้ขับขี่ควรลดความเร็วและระมัดระวัง", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางโค้งขวา", desc: "เตือนว่ามีทางโค้งไปทางขวาข้างหน้า ผู้ขับขี่ควรลดความเร็วและระมัดระวัง", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางโค้งรัศมีแคบเลี้ยวซ้าย", desc: "เตือนว่ามีทางโค้งแคบไปทางซ้ายข้างหน้า ผู้ขับขี่ต้องลดความเร็วและระวังเป็นพิเศษ", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางโค้งรัศมีแคบเลี้ยวขวา", desc: "เตือนว่ามีทางโค้งแคบไปทางขวาข้างหน้า ผู้ขับขี่ต้องลดความเร็วและระวังเป็นพิเศษ", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางโค้งเริ่มซ้าย", desc: "เตือนว่าทางโค้งไปทางซ้ายเริ่มต้นข้างหน้า ผู้ขับขี่ควรเตรียมตัวและลดความเร็ว", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางโค้งเริ่มขวา", desc: "เตือนว่าทางโค้งไปทางขวาเริ่มต้นข้างหน้า ผู้ขับขี่ควรเตรียมตัวและลดความเร็ว", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางโค้งรัศมีแคบเริ่มซ้าย", desc: "เตือนว่ามีทางโค้งแคบเริ่มไปทางซ้ายข้างหน้า ผู้ขับขี่ต้องระวังและลดความเร็วอย่างมาก", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางโค้งรัศมีแคบเริ่มขวา", desc: "เตือนว่ามีทางโค้งแคบเริ่มไปทางขวาข้างหน้า ผู้ขับขี่ต้องระวังและลดความเร็วอย่างมาก", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางคดเคี้ยวเริ่มซ้าย", desc: "เตือนว่ามีทางคดเคี้ยวเริ่มจากทางซ้ายข้างหน้า ผู้ขับขี่ควรระวังการเลี้ยวต่อเนื่อง", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางคดเคี้ยวเริ่มขวา", desc: "เตือนว่ามีทางคดเคี้ยวเริ่มจากทางขวาข้างหน้า ผู้ขับขี่ควรระวังการเลี้ยวต่อเนื่อง", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางโทตัดทางเอก", desc: "เตือนว่ามีทางโทตัดผ่านทางเอกข้างหน้า ผู้ขับขี่ควรระวังรถจากทางโท", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางโทแยกทางเอกรูปตัว Y", desc: "เตือนว่ามีทางโทแยกออกจากทางเอกเป็นรูปตัว Y ข้างหน้า ผู้ขับขี่ควรระวังทางแยก", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางโทแยกทางเอกทางซ้าย", desc: "เตือนว่ามีทางโทแยกออกจากทางเอกไปทางซ้ายข้างหน้า ผู้ขับขี่ควรระวัง", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางโทแยกทางเอกทางขวา", desc: "เตือนว่ามีทางโทแยกออกจากทางเอกไปทางขวาข้างหน้า ผู้ขับขี่ควรระวัง", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางโทแยกทางเอกเยื้องกันเริ่มซ้าย", desc: "เตือนว่ามีทางโทแยกออกจากทางเอกเยื้องกันโดยเริ่มจากทางซ้าย ผู้ขับขี่ควรระวังรถจากทั้งสองฝั่ง", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางโทแยกทางเอกเยื้องกันเริ่มขวา", desc: "เตือนว่ามีทางโทแยกออกจากทางเอกเยื้องกันโดยเริ่มจากทางขวา ผู้ขับขี่ควรระวังรถจากทั้งสองฝั่ง", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางโทเชื่อมทางเอกจากซ้าย", desc: "เตือนว่ามีทางโทเชื่อมเข้ากับทางเอกจากทางซ้ายข้างหน้า ผู้ขับขี่ควรระวังรถจากทางซ้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางโทเชื่อมทางเอกจากขวา", desc: "เตือนว่ามีทางโทเชื่อมเข้ากับทางเอกจากทางขวาข้างหน้า ผู้ขับขี่ควรระวังรถจากทางขวา", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายวงเวียนข้างหน้า", desc: "เตือนว่ามีวงเวียนข้างหน้า ผู้ขับขี่ควรลดความเร็วและให้ทางตามกฎจราจร", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางแคบลงทั้งสองด้าน", desc: "เตือนว่าทางข้างหน้าจะแคบลงทั้งสองด้าน ผู้ขับขี่ควรระวังและลดความเร็ว", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางแคบลงด้านซ้าย", desc: "เตือนว่าทางข้างหน้าจะแคบลงทางด้านซ้าย ผู้ขับขี่ควรระวังและลดความเร็ว", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางแคบลงด้านขวา", desc: "เตือนว่าทางข้างหน้าจะแคบลงทางด้านขวา ผู้ขับขี่ควรระวังและลดความเร็ว", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายสะพานแคบ", desc: "เตือนว่าข้างหน้ามีสะพานที่มีความกว้างจำกัด ผู้ขับขี่ควรลดความเร็วและระมัดระวังเป็นพิเศษ", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายช่องจราจรปิดด้านซ้าย", desc: "เตือนว่าช่องจราจรด้านซ้ายข้างหน้าถูกปิด ผู้ขับขี่ต้องเปลี่ยนไปใช้ช่องทางเดินรถอื่นแทน", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายช่องจราจรปิดด้านขวา", desc: "เตือนว่าช่องจราจรด้านขวาข้างหน้าถูกปิด ผู้ขับขี่ต้องเปลี่ยนไปใช้ช่องทางเดินรถอื่นแทน", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางข้ามทางรถไฟไม่มีเครื่องกั้นทาง", desc: "เตือนว่ามีทางรถไฟตัดผ่านข้างหน้า ไม่มีเครื่องกั้นทาง ผู้ขับขี่ควรหยุดรถและต้องระมัดระวังเป็นพิเศษ", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางข้ามทางรถไฟมีเครื่องกั้นทาง", desc: "เตือนว่ามีทางรถไฟตัดผ่านข้างหน้าและมีเครื่องกั้น ผู้ขับขี่ควรปฏิบัติตามเครื่องกั้นและให้ความระมัดระวังเป็นพิเศษ", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางข้ามทางรถไฟติดทางแยก", desc: "เตือนว่ามีทางข้ามรางรถไฟใกล้ทางแยกข้างหน้า ผู้ขับขี่ควรระวังทั้งรถไฟและรถจากทางแยก", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางแคบ", desc: "เตือนว่าทางข้างหน้าแคบลงอย่างมาก ผู้ขับขี่ควรระวังและลดความเร็ว", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางลอดต่ำ", desc: "เตือนว่ามีทางลอดที่มีความสูงจำกัดข้างหน้า ผู้ขับขี่ควรตรวจสอบความสูงของยานพาหนะ", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางขึ้นลาดชัน", desc: "เตือนว่ามีทางลาดชันขึ้นข้างหน้า ผู้ขับขี่ควรใช้เกียร์ต่ำและระวัง", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางลงลาดชัน", desc: "เตือนว่ามีทางลาดชันลงข้างหน้า ผู้ขับขี่ควรใช้เกียร์ต่ำและควบคุมความเร็ว", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายระวังเนิน", desc: "เตือนว่ามีเนินข้างหน้า ผู้ขับขี่ควรระวังการเปลี่ยนแปลงของระดับถนน", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายผิวทางขรุขระ", desc: "เตือนว่าผิวถนนข้างหน้าขรุขระ ผู้ขับขี่ควรลดความเร็วเพื่อความปลอดภัย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางเป็นแอ่ง", desc: "เตือนว่ามีแอ่งน้ำหรือหลุมบนถนนข้างหน้า ผู้ขับขี่ควรระวังและลดความเร็ว", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางลื่น", desc: "เตือนว่าถนนข้างหน้าลื่น ผู้ขับขี่ควรลดความเร็วและระวังการลื่นไถล", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายผิวทางร่วน", desc: "เตือนว่าทางข้างหน้ามีสภาพผิวทางที่วัสดุผิวทางหลุดกระเด็นได้ง่ายเมื่อขับรถด้วยความเร็วสูง", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายระวังหินร่วง", desc: "เตือนว่ามีความเสี่ยงจากหินร่วงลงบนถนนข้างหน้า ผู้ขับขี่ควรระวัง", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายสะพานเปิดได้", desc: "สะพานที่สามารถเปิดหรือยกส่วนใดส่วนหนึ่งขึ้นได้ ผู้ขับขี่ควรระมัดระวังและชะลอความเร็วเพื่อเตรียมพร้อมที่จะหยุดรถ", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายให้เปลี่ยนช่องจราจร", desc: "เตือนให้ผู้ขับขี่เปลี่ยนช่องจราจรตามทิศทางที่ป้ายระบุ เพื่อหลีกเลี่ยงสิ่งกีดขวาง", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายออกทางขนาน", desc: "เตือนให้ผู้ขับขี่ที่อยู่บนถนนหลัก/ทางด่วนทราบว่ากำลังจะถึงทางแยกที่เชื่อมออกไปยังคู่ทางขนานข้างหน้า", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายเข้าทางหลัก", desc: "เตือนให้ผู้ขับขี่ที่กำลังจะเข้าสู่ทางหลักระมัดระวังและให้ทางแก่รถที่กำลังแล่นอยู่บนทางหลัก", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางร่วม", desc: "เตือนว่ามีทางร่วมข้างหน้า ผู้ขับขี่ควรระวังรถจากทางอื่น", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางคู่ข้างหน้า", desc: "ทางข้างหน้าเป็นทางคู่ มีเกาะกลางถนนแบ่งการจราจรออกเป็นสองทิศทาง ผู้ขับขี่ควรขับรถชิดขอบทางด้านซ้าย", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายสิ้นสุดทางคู่", desc: "เตือนว่าทางคู่สิ้นสุดลงข้างหน้า ทางจะกลายเป็นทางเดี่ยว ผู้ขับขี่ควรระวังรถวิ่งสวนทาง", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายจุดกลับรถด้านซ้าย", desc: "เตือนว่ามีจุดกลับรถทางด้านซ้ายข้างหน้า ผู้ขับขี่ควรเตรียมตัวและระวังรถทางอื่น", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายจุดกลับรถด้านขวา", desc: "เตือนว่ามีจุดกลับรถทางด้านขวาข้างหน้า ผู้ขับขี่ควรเตรียมตัวและระวังรถทางอื่น", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายทางเดินรถสองทาง", desc: "เตือนว่าทางข้างหน้าเป็นทางสองช่องทาง ผู้ขับขี่ควรระวังรถสวนทาง", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายสัญญาณไฟจราจร", desc: "เตือนว่ามีสัญญาณไฟจราจรข้างหน้า ผู้ขับขี่ควรเตรียมปฏิบัติตามสัญญาณไฟจราจร", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายหยุดข้างหน้า", desc: "สั่งให้ผู้ขับขี่หยุดรถที่ทางแยกข้างหน้า", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายให้ทางข้างหน้า", desc: "สั่งให้ผู้ขับขี่ให้ทางแก่ยานพาหนะอื่นที่ทางแยกข้างหน้า", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายระวังคนข้ามถนน", desc: "เตือนผู้ขับขี่ให้เพิ่มความระมัดระวังเป็นพิเศษ อาจมีคนกำลังข้ามถนน", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายระวังสัตว์", desc: "ผู้ขับขี่ควรระมัดระวังเป็นพิเศษ มีโอกาสพบสัตว์บนถนน", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายระวังเครื่องบินบินต่ำ", desc: "ทางข้างหน้าใกล้สนามบิน หรือมีเครื่องบินบินขึ้น-ลงในระดับต่ำ ควรขับรถให้ช้าลง", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายระวังอันตราย", desc: "เตือนให้ทราบถึงอันตรายที่อาจเกิดขึ้นในบริเวณนั้นๆ เพื่อให้เกิดความระมัดระวัง", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายเตือนแนวทาง", desc: "เตือนผู้ใช้ทางให้ทราบถึงแนวทางเดินรถที่อาจมีการเปลี่ยนแปลง เช่น ทางโค้ง ทางแยก", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายสลับกันไป", desc: "เตือนผู้ขับขี่ว่าทางข้างหน้ามีจำนวนช่องเดินรถลดลง ให้ขับรถสลับกันไปทีละคัน", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ป้ายเขตห้ามแซง", desc: "ห้ามผู้ขับขี่แซงยานพาหนะอื่นในเขตนี้ เพื่อความปลอดภัยและป้องกันการเกิดอุบัติเหตุ", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "WC", desc: "มีห้องน้ำบริการ", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "TAXI", desc: "จุดบริการรถแท็กซี่", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "มีดและส้อม", desc: "จุดบริการอาหาร/ร้านอาหาร", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "แก้วกาแฟ", desc: "ร้านกาแฟหรือเครื่องดื่มร้อน", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "เครื่องบิน", desc: "สนามบินหรือจุดบริการการบิน", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "เสาโทรศัพท์", desc: "โทรศัพท์สาธารณะ", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "เปลวไฟ", desc: "จุดแจ้งเหตุเพลิงไหม้หรือสถานีดับเพลิง", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ไขควงและประแจ", desc: "ศูนย์บริการซ่อมรถยนต์", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "รถเข็นคนพิการ", desc: "ที่จอดรถหรือบริการสำหรับผู้พิการ", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ตู้เติมน้ำมัน", desc: "สถานีเติมน้ำมันหรือก๊าซ", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "รถบัส", desc: "จุดจอดรถโดยสาร", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "โทรศัพท์ SOS", desc: "โทรศัพท์ฉุกเฉินสำหรับติดต่อขอความช่วยเหลือ", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ก๊อกน้ำ", desc: "จุดบริการน้ำดื่มสะอาด", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "โรงพยาบาล", desc: "ป้ายแสดงโรงพยาบาล", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "ตัว P", desc: "ป้ายแสดงที่จอดรถ", img: "ใส่ชื่อไฟล์รูป.jpg" },
+            { title: "เรือ", desc: "ป้ายชี้ทางไปท่าเรือโดยสาร", img: "ใส่ชื่อไฟล์รูป.jpg" }
         ];
 
         function toggleTheme() {
@@ -680,54 +748,120 @@
         }
 
         let signModalElement; 
-        function openSignModal(title, desc, img) { document.getElementById('modalTitle').innerText = title; document.getElementById('modalDesc').innerText = desc; document.getElementById('modalImg').src = img; signModalElement.show(); }
-        function filterSigns() { const query = document.getElementById('search-box').value.toLowerCase(); renderContent(data.filter(item => item.title.toLowerCase().includes(query))); }
-        function renderContent(displayData = data) {
+        function openSignModal(title, desc, imgStr) { 
+            document.getElementById('modalTitle').innerText = title; 
+            document.getElementById('modalDesc').innerText = desc; 
+            
+            const mImg = document.getElementById('modalImg');
+            const mPlaceholder = document.getElementById('modalPlaceholder');
+            
+            mImg.src = imgStr;
+            mImg.onload = function() {
+                mImg.style.display = 'block';
+                mPlaceholder.style.display = 'none';
+            }
+            mImg.onerror = function() {
+                mImg.style.display = 'none';
+                mPlaceholder.style.display = 'flex';
+            }
+            
+            signModalElement.show(); 
+        }
+
+        function filterSigns() { const query = document.getElementById('search-box').value.toLowerCase(); renderContent(signsData.filter(item => item.title.toLowerCase().includes(query))); }
+        
+        function renderContent(displayData = signsData) {
             const grid = document.getElementById('sign-grid');
-            if(displayData.length === 0) return grid.innerHTML = '<div class="col-12 text-center text-muted">ไม่พบข้อมูลป้ายจราจรที่ค้นหา</div>';
+            if(displayData.length === 0) return grid.innerHTML = '<div class="col-12 text-center text-muted py-5">ไม่พบข้อมูลป้ายจราจรที่ค้นหา</div>';
             grid.innerHTML = displayData.map((item, idx) => `
-                <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="${idx * 50}">
+                <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="${(idx%10) * 50}">
                     <div class="sign-card text-center h-100" onclick="openSignModal('${item.title}', '${item.desc}', '${item.img}')">
-                        <div class="mb-2 d-flex align-items-center justify-content-center" style="height:120px;"><img src="${item.img}" style="max-height:100%; width:auto; margin:0;" onerror="this.src='https://via.placeholder.com/150?text=Image+Not+Found'"></div>
-                        <h6 class="fw-bold mb-1" style="color: var(--text-main);">${item.title}</h6>
-                        <small style="color: var(--primary-color); font-size:0.75rem">แตะดูข้อมูล</small>
+                        <div class="img-block-wrapper">
+                            <img src="${item.img}" style="max-height:100%; width:auto; margin:0; z-index: 2; position: relative;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <span style="display:none; color: var(--primary-color); font-size: 0.8rem; position: absolute; text-align: center;">
+                                <i class="fas fa-image fa-2x mb-1"></i><br>รอใส่รูป
+                            </span>
+                        </div>
+                        <h6 class="fw-bold mb-1" style="color: var(--text-main); font-size: 0.9rem;">${item.title}</h6>
                     </div>
                 </div>`).join('');
         }
 
-        // --- QUIZ & FIRESTORE ---
-        let qIdx=0, score=0;
+        // --- QUIZ LOGIC ---
+        let qIdx=0, score=0, currentQuestions = [];
+        
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
         function startQuiz() {
             if(!loggedInUser) return showToast('ต้องเข้าสู่ระบบก่อน จึงจะสามารถทำแบบทดสอบได้ครับ!', false);
             score=0; qIdx=0;
-            document.getElementById('quiz-start').style.display='none'; document.getElementById('quiz-play').style.display='block';
+            
+            let shuffledSigns = shuffleArray([...signsData]);
+            currentQuestions = shuffledSigns.slice(0, 10).map(sign => {
+                let wrongOptions = shuffleArray(signsData.filter(s => s.title !== sign.title)).slice(0, 3).map(s => s.title);
+                let allOptions = shuffleArray([sign.title, ...wrongOptions]);
+                return { ...sign, choices: allOptions, ans: allOptions.indexOf(sign.title) };
+            });
+
+            document.getElementById('quiz-start').style.display='none'; 
+            document.getElementById('quiz-play').style.display='block';
             loadQ();
         }
         
         function loadQ() {
-            const d = data[qIdx];
-            document.getElementById('q-now').innerText = qIdx+1; document.getElementById('score').innerText = score; document.getElementById('q-img').src = d.img;
-            document.getElementById('quiz-progress').style.width = ((qIdx) / 5) * 100 + '%';
+            const d = currentQuestions[qIdx];
+            document.getElementById('q-now').innerText = qIdx+1; 
+            document.getElementById('score').innerText = score; 
+            
+            const qImg = document.getElementById('q-img');
+            const qPlaceholder = document.getElementById('q-placeholder');
+            
+            qImg.src = d.img;
+            qImg.style.display = 'block';
+            qPlaceholder.style.display = 'none';
+            qImg.onload = function() {
+                qImg.style.display = 'block';
+                qPlaceholder.style.display = 'none';
+            }
+            qImg.onerror = function() {
+                qImg.style.display = 'none';
+                qPlaceholder.style.display = 'flex';
+            }
+            
+            document.getElementById('q-title').innerText = "ความหมายของป้ายนี้คือ?"; 
+            document.getElementById('quiz-progress').style.width = ((qIdx) / 10) * 100 + '%';
+            
             let h = "";
-            d.choices.forEach((c,i)=> { h += `<button class="btn btn-outline-primary py-3 rounded-3 shadow-sm text-start ps-4 fw-medium w-100" style="border-color: var(--border-color); color: var(--text-main); background: var(--bg-card); margin-bottom: 10px;" onmouseover="this.style.borderColor='var(--primary-color)'; this.style.color='var(--primary-color)';" onmouseout="this.style.borderColor='var(--border-color)'; this.style.color='var(--text-main)';" onclick="check(${i})">${c}</button>`; });
+            d.choices.forEach((c,i)=> { 
+                h += `<button class="btn btn-outline-primary py-3 rounded-3 shadow-sm text-start ps-4 fw-medium w-100" style="border-color: var(--border-color); color: var(--text-main); background: var(--bg-card); margin-bottom: 10px;" onmouseover="this.style.borderColor='var(--primary-color)'; this.style.color='var(--primary-color)';" onmouseout="this.style.borderColor='var(--border-color)'; this.style.color='var(--text-main)';" onclick="check(${i})">${c}</button>`; 
+            });
             document.getElementById('q-choices').innerHTML=h;
         }
         
         function check(c) {
-            if(c===data[qIdx].ans) score++;
-            if(++qIdx < 5) { loadQ(); } 
+            if(c===currentQuestions[qIdx].ans) score++;
+            if(++qIdx < 10) { loadQ(); } 
             else {
                 document.getElementById('quiz-progress').style.width = '100%';
                 confetti({particleCount:150, spread:70, origin:{y:0.6}});
+                
                 db.collection('exam_history').add({
                     name: loggedInUser, score: score, date: new Date().toLocaleString('th-TH'), timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 }).then(() => {
                     setTimeout(() => {
-                        alert(`จบการสอบ! คุณ ${loggedInUser} ได้ ${score}/5 คะแนน`);
-                        document.getElementById('quiz-start').style.display='block'; document.getElementById('quiz-play').style.display='none'; document.getElementById('quiz-progress').style.width = '0%';
+                        alert(`จบการสอบ! คุณ ${loggedInUser} ได้ ${score}/10 คะแนน`);
+                        document.getElementById('quiz-start').style.display='block'; 
+                        document.getElementById('quiz-play').style.display='none'; 
+                        document.getElementById('quiz-progress').style.width = '0%';
                         showSection('history');
                     }, 500);
-                }).catch(err => showToast('เกิดข้อผิดพลาดในการบันทึกคะแนน: ' + err.message, false));
+                }).catch(err => showToast('เกิดข้อผิดพลาดในการบันทึกคะแนน', false));
             }
         }
 
@@ -740,7 +874,7 @@
                 snapshot.forEach(doc => {
                     const d = doc.data();
                     if(d.date && d.name && d.score !== undefined) {
-                        html += `<tr><td class="ps-4 small" style="color:var(--text-muted);">${d.date}</td><td class="fw-medium">${d.name}</td><td class="text-end pe-4 fw-bold" style="color:var(--primary-color);">${d.score} / 5</td></tr>`;
+                        html += `<tr><td class="ps-4 small" style="color:var(--text-muted);">${d.date}</td><td class="fw-medium">${d.name}</td><td class="text-end pe-4 fw-bold" style="color:var(--primary-color);">${d.score} / 10</td></tr>`;
                     }
                 });
                 t.innerHTML = html;
