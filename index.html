@@ -10,6 +10,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+
     <meta name="description" content="สื่อการสอนเครื่องหมายจราจร เรียนรู้กฎจราจรเบื้องต้น พร้อมแบบทดสอบออนไลน์ พัฒนาโดย มนภวัต">
     <meta name="keywords" content="เครื่องหมายจราจร, สอบใบขับขี่, กฎจราจร, ป้ายจราจร, สื่อการสอน, มนภวัต">
     <meta name="author" content="มนภวัต">
@@ -114,7 +118,7 @@
             filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1));
         }
         
-        /* สไตล์สำหรับรูปที่แทรกในเนื้อหาบทเรียน (ตามที่คุณส่งมา) */
+        /* สไตล์สำหรับรูปที่แทรกในเนื้อหาบทเรียน */
         .lesson-content img {
             max-width: 100%; 
             max-height: 200px; 
@@ -122,7 +126,7 @@
             height: auto;
             object-fit: contain; 
             display: block; 
-            margin: 20px 0; /* ชิดซ้ายตามสไตล์เดิม หรือใช้ margin: 20px auto; เพื่อจัดกลาง */
+            margin: 20px 0; 
             border-radius: 10px;
             border: 1px solid var(--border-color);
         }
@@ -190,26 +194,26 @@
         </div>
         
         <div class="mt-2">
-            <div class="menu-item active" onclick="showSection('landing', this)">
-                <i class="fas fa-home"></i> หน้าแรก
-            </div>
-            <div class="menu-item" onclick="showSection('lessons', this)">
-                <i class="fas fa-book-reader"></i> บทเรียน
-            </div>
-            <div class="menu-item" onclick="showSection('quiz', this)">
-                <i class="fas fa-gamepad"></i> แบบทดสอบ
-            </div>
-            <div class="menu-item" onclick="showSection('history', this)">
-                <i class="fas fa-trophy"></i> ประวัติคะแนน
-            </div>
+            <div class="menu-item active" onclick="showSection('landing', this)"><i class="fas fa-home"></i> หน้าแรก</div>
+            <div class="menu-item" onclick="showSection('lessons', this)"><i class="fas fa-book-reader"></i> บทเรียน</div>
+            <div class="menu-item" onclick="showSection('quiz', this)"><i class="fas fa-gamepad"></i> แบบทดสอบ</div>
+            <div class="menu-item" onclick="showSection('history', this)"><i class="fas fa-trophy"></i> ประวัติคะแนน</div>
         </div>
 
         <div class="mt-auto p-4 text-center">
-            <div class="p-3 rounded-4 border" style="background: var(--bg-card);">
-                <div class="mb-2" style="color: var(--primary-color);"><i class="fas fa-code"></i></div>
-                <small class="d-block" style="color: var(--text-muted);">Developed by</small>
-                <strong style="color: var(--text-main);">มนภวัต</strong>
+            <div id="user-profile" class="p-3 rounded-4 border text-center shadow-sm" style="background: var(--bg-card); display: none;">
+                <div class="mb-2" style="color: var(--primary-color);"><i class="fas fa-user-check fa-2x"></i></div>
+                <small class="d-block" style="color: var(--text-muted);">ยินดีต้อนรับ</small>
+                <strong style="color: var(--text-main);" class="fs-5" id="display-username">...</strong>
+                <button class="btn btn-sm btn-outline-danger rounded-pill w-100 mt-3" onclick="handleLogout()">ออกจากระบบ</button>
             </div>
+
+            <div id="login-prompt" class="p-3 rounded-4 border text-center shadow-sm" style="background: var(--bg-card);">
+                <div class="mb-2" style="color: var(--text-muted);"><i class="fas fa-user-lock fa-2x"></i></div>
+                <p class="small mb-2" style="color: var(--text-muted);">เข้าสู่ระบบเพื่อสอบ</p>
+                <button class="btn btn-gradient btn-sm rounded-pill w-100" data-bs-toggle="modal" data-bs-target="#authModal">เข้าสู่ระบบ</button>
+            </div>
+            <small class="d-block mt-3" style="color: var(--text-muted); font-size: 0.7rem;">Developed by มนภวัต</small>
         </div>
     </nav>
 
@@ -423,11 +427,11 @@
                         </div>
                     </div>
                     <h2 class="fw-bold">ทดสอบความรู้</h2>
-                    <p class="mb-4 text-muted">วัดระดับความรู้ของคุณด้วยแบบทดสอบ 5 ข้อ</p>
+                    <p class="mb-4 text-muted">เข้าสู่ระบบด้านซ้ายมือ เพื่อเริ่มทำแบบทดสอบ 5 ข้อ</p>
                     
                     <div class="form-floating mb-4">
-                        <input type="text" class="form-control rounded-pill px-4" id="player-name" placeholder="ชื่อของคุณ" style="background: var(--bg-body); color: var(--text-main); border-color: var(--border-color);">
-                        <label for="player-name" class="px-4">กรอกชื่อของคุณ (เช่น มนภวัต)</label>
+                        <input type="text" class="form-control rounded-pill px-4 bg-light text-muted" id="player-name" placeholder="ชื่อของคุณ" style="border-color: var(--border-color);" disabled>
+                        <label for="player-name" class="px-4">ชื่อผู้สอบ (ระบบจะดึงจากบัญชีอัตโนมัติ)</label>
                     </div>
 
                     <button class="btn btn-gradient w-100 py-3 rounded-pill fw-bold fs-5 shadow-sm" onclick="startQuiz()">
@@ -459,10 +463,7 @@
         <div id="section-history" class="page-section" style="display: none;">
             <div class="content-card p-0 overflow-hidden border-0 shadow-lg" data-aos="fade-up">
                 <div class="p-4 border-bottom d-flex justify-content-between align-items-center" style="background: var(--bg-card);">
-                    <h5 class="m-0 fw-bold"><i class="fas fa-list-alt me-2" style="color: var(--primary-color);"></i>ประวัติคะแนน</h5>
-                    <button class="btn btn-sm btn-outline-danger rounded-pill px-3" onclick="clearHistory()">
-                        <i class="fas fa-trash-alt me-1"></i> ล้างข้อมูล
-                    </button>
+                    <h5 class="m-0 fw-bold"><i class="fas fa-list-alt me-2" style="color: var(--primary-color);"></i>ประวัติคะแนนสอบ</h5>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover mb-0 align-middle" style="color: var(--text-main);">
@@ -498,6 +499,30 @@
         </div>
     </div>
 
+    <div class="modal fade" id="authModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" style="color: var(--primary-color);" id="authTitle"><i class="fas fa-user-circle me-2"></i>เข้าสู่ระบบ</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control rounded-pill px-4" id="auth-username" placeholder="ชื่อผู้ใช้">
+                        <label for="auth-username" class="px-4">ชื่อผู้ใช้ (ภาษาอังกฤษ หรือ ตัวเลข)</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <input type="password" class="form-control rounded-pill px-4" id="auth-password" placeholder="รหัสผ่าน">
+                        <label for="auth-password" class="px-4">รหัสผ่าน (อย่างน้อย 6 ตัวอักษร)</label>
+                    </div>
+                    <button class="btn btn-gradient w-100 py-3 rounded-pill fw-bold mb-3" id="btn-login" onclick="handleLogin()">เข้าสู่ระบบ</button>
+                    <button class="btn btn-outline-primary w-100 py-3 rounded-pill fw-bold" id="btn-register" onclick="handleRegister()" style="display: none;">สมัครสมาชิก</button>
+                    <div class="text-center mt-3"><a href="#" class="text-muted text-decoration-none small" id="toggle-auth" onclick="toggleAuthMode()">ยังไม่มีบัญชี? สมัครสมาชิกที่นี่</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -505,7 +530,88 @@
     <script>
         AOS.init({ duration: 800, once: true });
 
-        // Data for Gallery & Quiz (ใช้ชื่อไฟล์รูปของคุณตามเดิม)
+        // --- 1. FIREBASE SETUP (ดึงข้อมูลเข้าสู่ฐานข้อมูลของคุณ) ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyAl3U2fiIxhdlwzcJW3qlG0HlK-EqdZptw",
+            authDomain: "traffic-ed-project1.firebaseapp.com",
+            projectId: "traffic-ed-project1",
+            storageBucket: "traffic-ed-project1.firebasestorage.app",
+            messagingSenderId: "985764118252",
+            appId: "1:985764118252:web:85d5c97355deffd33d6fc9"
+        };
+        // เริ่มต้นการใช้งาน Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // --- 2. ระบบ AUTHENTICATION (Login / Register) ---
+        let authModalElement; 
+        let isLoginMode = true;
+        let loggedInUser = null;
+
+        function toggleAuthMode() {
+            isLoginMode = !isLoginMode;
+            document.getElementById('authTitle').innerHTML = isLoginMode ? '<i class="fas fa-user-circle me-2"></i>เข้าสู่ระบบ' : '<i class="fas fa-user-plus me-2"></i>สมัครสมาชิก';
+            document.getElementById('btn-login').style.display = isLoginMode ? 'block' : 'none';
+            document.getElementById('btn-register').style.display = isLoginMode ? 'none' : 'block';
+            document.getElementById('toggle-auth').innerText = isLoginMode ? 'ยังไม่มีบัญชี? สมัครสมาชิกที่นี่' : 'มีบัญชีแล้ว? เข้าสู่ระบบที่นี่';
+        }
+
+        // ตรวจสอบสถานะการเข้าสู่ระบบแบบ Real-time
+        auth.onAuthStateChanged(user => {
+            if(user) {
+                // แยกชื่อออกจากอีเมลจำลองที่เราสร้างไว้
+                loggedInUser = user.email.split('@')[0];
+                document.getElementById('login-prompt').style.display = 'none';
+                document.getElementById('user-profile').style.display = 'block';
+                document.getElementById('display-username').innerText = loggedInUser;
+                document.getElementById('player-name').value = loggedInUser; // ใส่ชื่อลงในช่องแบบทดสอบอัตโนมัติ
+            } else {
+                loggedInUser = null;
+                document.getElementById('login-prompt').style.display = 'block';
+                document.getElementById('user-profile').style.display = 'none';
+                document.getElementById('player-name').value = '';
+            }
+        });
+
+        function handleRegister() {
+            const username = document.getElementById('auth-username').value.trim();
+            const pass = document.getElementById('auth-password').value.trim();
+            if(!username || pass.length < 6) return alert('กรุณาใส่ชื่อ และรหัสผ่านอย่างน้อย 6 ตัวอักษร');
+            
+            // ใช้เทคนิคเติม @traffic.com เพื่อให้เข้ากับระบบ Email/Password ของ Firebase
+            const fakeEmail = `${username.toLowerCase()}@traffic.com`;
+            auth.createUserWithEmailAndPassword(fakeEmail, pass)
+            .then(() => { 
+                alert('สมัครสมาชิกสำเร็จ! ระบบได้เข้าสู่ระบบให้คุณเรียบร้อยแล้ว'); 
+                authModalElement.hide(); 
+                document.getElementById('auth-password').value = ''; 
+            })
+            .catch(err => {
+                if(err.code === 'auth/email-already-in-use') alert('ชื่อผู้ใช้นี้มีคนใช้แล้วครับ กรุณาเปลี่ยนชื่อใหม่');
+                else alert('เกิดข้อผิดพลาด: ' + err.message);
+            });
+        }
+
+        function handleLogin() {
+            const username = document.getElementById('auth-username').value.trim();
+            const pass = document.getElementById('auth-password').value.trim();
+            if(!username || !pass) return alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+            
+            const fakeEmail = `${username.toLowerCase()}@traffic.com`;
+            auth.signInWithEmailAndPassword(fakeEmail, pass)
+            .then(() => { 
+                authModalElement.hide(); 
+                document.getElementById('auth-password').value = ''; 
+            })
+            .catch(err => alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง!'));
+        }
+
+        function handleLogout() { 
+            auth.signOut().then(() => alert('ออกจากระบบเรียบร้อยแล้ว')); 
+        }
+
+        // Data for Gallery & Quiz
         const data = [
             { id: 1, title: "ป้ายหยุด", desc: "รถทุกคันต้องหยุดให้สนิท", img: "หยุด1 (1).jpg", ans: 1, choices: ["ห้ามเข้า", "หยุด", "ชะลอ", "ห้ามจอด"] },
             { id: 2, title: "ห้ามเลี้ยวขวา", desc: "ห้ามเลี้ยวไปทางขวา", img: "ป้ายห้ามเลี้ยวซ้าย ขวา.svg", ans: 2, choices: ["ห้ามซ้าย", "กลับรถ", "ห้ามเลี้ยวขวา", "ทางเอก"] },
@@ -513,7 +619,6 @@
             { id: 4, title: "จำกัดความเร็ว 60", desc: "ห้ามขับเร็วเกิน 60 กม./ชม.", img: "60.svg", ans: 2, choices: ["ขับช้า", "น้ำหนักเกิน", "จำกัดความเร็ว", "ระยะห่าง"] },
             { id: 5, title: "วงเวียน", desc: "ให้รถในวงเวียนไปก่อน", img: "วงเวียน_1000x1000.jpg", ans: 0, choices: ["วงเวียน", "กลับรถ", "ห้ามเลี้ยว", "ทางโค้ง"] },
             { id: 6, title: "ห้ามเข้า", desc: "ห้ามรถทุกชนิดผ่านเข้าไป", img: "ห้ามเข้า.jpg", ans: 1, choices: ["ทางตัน", "ห้ามเข้า", "ห้ามจอด", "หยุดตรวจ"] },
-            // เพิ่มป้ายอื่นๆ ใน Gallery ให้ด้วยครับ
             { id: 7, title: "ป้ายให้ทาง", desc: "ต้องชะลอและให้รถทางเอกไปก่อน", img: "Thailand_road_sign_บ-2-1 (1).svg", ans: 3, choices: ["ทางตัน", "หยุด", "ห้ามเข้า", "ให้ทาง"] },
             { id: 8, title: "ป้ายห้ามกลับรถ", desc: "ห้ามกลับรถในจุดนั้น", img: "ป้ายห้ามกลับรถ.jpg", ans: 0, choices: ["ห้ามกลับรถ", "ห้ามเลี้ยว", "ทางตัน", "เดินรถทางเดียว"] },
             { id: 9, title: "ป้ายห้ามจอด", desc: "ห้ามจอดรถทุกชนิด", img: "ป้ายห้ามจอด.svg", ans: 2, choices: ["ห้ามหยุด", "ห้ามเข้า", "ห้ามจอด", "หยุดตรวจ"] }
@@ -577,16 +682,16 @@
                 el.classList.add('active');
                 if(window.innerWidth<=768) toggleSidebar();
             }
-            if(id==='history') loadHistory();
+            if(id==='history') loadHistoryRealtime();
         }
 
-        // --- Modal & Search Logic (New!) ---
-        const signModal = new bootstrap.Modal(document.getElementById('signModal'));
+        // --- Modal & Search Logic ---
+        let signModalElement; 
         function openSignModal(title, desc, img) {
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalDesc').innerText = desc;
             document.getElementById('modalImg').src = img;
-            signModal.show();
+            signModalElement.show();
         }
 
         function filterSigns() {
@@ -614,16 +719,17 @@
             `).join('');
         }
 
-        // --- Quiz Logic (with Progress) ---
-        let qIdx=0, score=0, uName="";
+        // --- Quiz & Database Logic ---
+        let qIdx=0, score=0;
         function startQuiz() {
-            uName=document.getElementById('player-name').value;
-            if(!uName) { document.getElementById('player-name').focus(); return alert('กรุณาใส่ชื่อก่อนเริ่มสอบครับ'); }
+            if(!loggedInUser) return alert('ต้องเข้าสู่ระบบก่อน จึงจะสามารถทำแบบทดสอบได้ครับ!');
+            
             score=0; qIdx=0;
             document.getElementById('quiz-start').style.display='none';
             document.getElementById('quiz-play').style.display='block';
             loadQ();
         }
+        
         function loadQ() {
             const d = data[qIdx];
             document.getElementById('q-now').innerText = qIdx+1;
@@ -644,44 +750,75 @@
             });
             document.getElementById('q-choices').innerHTML=h;
         }
+        
         function check(c) {
             if(c===data[qIdx].ans) score++;
-            if(++qIdx < 5) loadQ(); // แก้ให้วนทำแค่ 5 ข้อแรก หรือปรับเลขถ้ายากให้ทำครบทุกข้อ
-            else {
+            if(++qIdx < 5) {
+                loadQ(); 
+            } else {
                 document.getElementById('quiz-progress').style.width = '100%';
                 confetti({particleCount:150, spread:70, origin:{y:0.6}});
-                setTimeout(() => {
-                    alert(`จบการสอบ! คุณ ${uName} ได้ ${score}/5 คะแนน`);
-                    saveHistory(uName, score);
-                    document.getElementById('quiz-start').style.display='block';
-                    document.getElementById('quiz-play').style.display='none';
-                    document.getElementById('player-name').value='';
-                    document.getElementById('quiz-progress').style.width = '0%';
-                    showSection('history');
-                }, 500);
+                
+                // --- ส่งคะแนนเข้า Firestore Database ของจริง ---
+                db.collection('exam_history').add({
+                    name: loggedInUser,
+                    score: score,
+                    date: new Date().toLocaleString('th-TH'),
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp() // เวลาจริงจากเซิร์ฟเวอร์
+                }).then(() => {
+                    setTimeout(() => {
+                        alert(`จบการสอบ! คุณ ${loggedInUser} ได้ ${score}/5 คะแนน`);
+                        document.getElementById('quiz-start').style.display='block';
+                        document.getElementById('quiz-play').style.display='none';
+                        document.getElementById('quiz-progress').style.width = '0%';
+                        showSection('history');
+                    }, 500);
+                }).catch(err => {
+                    alert('เกิดข้อผิดพลาดในการบันทึกคะแนน: ' + err.message);
+                });
             }
         }
 
-        // History
-        function saveHistory(n,s) {
-            const h = JSON.parse(localStorage.getItem('mpw_final'))||[];
-            h.unshift({n,s,d:new Date().toLocaleString('th-TH')});
-            localStorage.setItem('mpw_final',JSON.stringify(h));
-        }
-        function loadHistory() {
-            const h = JSON.parse(localStorage.getItem('mpw_final'))||[];
+        // --- ดึงข้อมูลประวัติจาก Firebase แบบ Real-time ---
+        function loadHistoryRealtime() {
             const t = document.getElementById('history-table');
-            if(!h.length) t.innerHTML='<tr><td colspan="3" class="text-center py-5 text-muted">ยังไม่มีประวัติการสอบ</td></tr>';
-            else t.innerHTML = h.map(x=>`
-                <tr>
-                    <td class="ps-4 small" style="color:var(--text-muted);">${x.d}</td>
-                    <td class="fw-medium">${x.n}</td>
-                    <td class="text-end pe-4 fw-bold" style="color:var(--primary-color);">${x.s}</td>
-                </tr>`).join('');
+            t.innerHTML='<tr><td colspan="3" class="text-center py-5 text-muted">กำลังดึงข้อมูลจากฐานข้อมูล...</td></tr>';
+            
+            // ดึง 30 คนล่าสุด เรียงจากเวลาใหม่สุดไปเก่าสุด
+            db.collection('exam_history').orderBy('timestamp', 'desc').limit(30).onSnapshot(snapshot => {
+                if(snapshot.empty) { 
+                    t.innerHTML='<tr><td colspan="3" class="text-center py-5 text-muted">ยังไม่มีประวัติการสอบ</td></tr>'; 
+                    return; 
+                }
+                
+                let html = '';
+                snapshot.forEach(doc => {
+                    const d = doc.data();
+                    // ตรวจสอบว่ามีข้อมูลครบถ้วน
+                    if(d.date && d.name && d.score !== undefined) {
+                        html += `
+                        <tr>
+                            <td class="ps-4 small" style="color:var(--text-muted);">${d.date}</td>
+                            <td class="fw-medium">${d.name}</td>
+                            <td class="text-end pe-4 fw-bold" style="color:var(--primary-color);">${d.score} / 5</td>
+                        </tr>`;
+                    }
+                });
+                t.innerHTML = html;
+            }, error => {
+                t.innerHTML=`<tr><td colspan="3" class="text-center py-5 text-danger">ไม่สามารถดึงข้อมูลได้ โปรดตรวจสอบการเชื่อมต่อ</td></tr>`;
+                console.error("Error fetching history: ", error);
+            });
         }
-        function clearHistory() { localStorage.removeItem('mpw_final'); loadHistory(); }
 
-        window.onload = () => { renderContent(); loadHistory(); };
+        window.onload = () => { 
+            // กำหนดค่า Modal หลังหน้าเว็บโหลดเสร็จ เพื่อป้องกัน Error
+            authModalElement = new bootstrap.Modal(document.getElementById('authModal'));
+            signModalElement = new bootstrap.Modal(document.getElementById('signModal'));
+            
+            renderContent(); 
+            loadHistoryRealtime(); 
+        };
     </script>
 </body>
 </html>
